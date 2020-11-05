@@ -145,6 +145,7 @@ class Character {
         this._pronoun = pronoun;
         this._conversation = conversation;
         this._linkedItems = [];
+        this._strength = 10
     }
     // Get _name function
     get name() {
@@ -166,6 +167,10 @@ class Character {
     get linkedItems() {
         return this._linkedItems;
     }
+    // Get _strength
+    get strength() {
+        return this._strength;
+    }
     // Set _name function
     set name(newName) {
         this._name = newName;
@@ -181,6 +186,22 @@ class Character {
     // Set _conversation text
     set conversation(newConversation) {
         this._conversation = newConversation;
+    }
+    // Set _strength
+    set strength(strengthChange) {
+        // If strengh is zero it can NOT be changed
+        if (this._strength === 0) {
+            return;
+        }
+        // Change stregth value
+        this._strength += Number(strengthChange);
+        // Check that strength value is within range 0 to 10
+        if (this._strength < 0) {
+            this._strength = 0;
+        }
+        else if (this._strength > 10) {
+            this.strength = 10;
+        }
     }
     describe() {
         // ** Maybe update phrasing **
@@ -220,8 +241,6 @@ class Enemy extends Character {
             this.addWeakness(weakness);
         }
     }
-    // ** Add dead or alive property ** OR could change description to dead
-
     // Get weakness function
     get weakness() {
         return this._weakness;
@@ -249,5 +268,59 @@ class Enemy extends Character {
             return true;
         }
         return false;
+    }
+}
+
+// Define subclass Friend
+class Friend extends Character {
+
+    constructor(name, description, pronoun, conversation) {
+        super(name, description, pronoun, conversation);
+    }
+    // Function to give this character a pint and changes strength acordingly
+    givePint(drink) {
+        // Check item is a pint
+        if (drink instanceof Beer) {
+
+        }
+        // Return text
+    }
+}
+
+// Define subclass Pint
+class Beer extends Item {
+
+    constructor(name, brand, size, description, position) {
+        super(name, description, position);
+        this._brand = brand;
+        // Only allow pint or half pint
+        if (size.toLowerCase() === "pint" || size.toLowerCase() === "half pint") {
+            this._size = size.toLowerCase();
+        }
+        else {
+            alert("Beer size must be either 'pint' or 'half pint'.");
+        }
+    }
+    // Get _brand function
+    get brand() {
+        return this._brand;
+    }
+    // Get _size function
+    get size() {
+        return this._size;
+    }
+    // Set _brand function
+    set brand(newBrand) {
+        this._brand = newBrand;
+    }
+    // Set _size function
+    set size(newSize) {
+        // Only allow pint or half pint
+        if (newSize.toLowerCase() === "pint" || newSize.toLowerCase() === "half pint") {
+            this._size = newSize.toLowerCase();
+        }
+        else {
+            alert("Beer size must be either 'pint' or 'half pint'.");
+        }
     }
 }
