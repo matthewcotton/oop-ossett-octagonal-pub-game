@@ -100,10 +100,10 @@ class Room {
 // Define Item class
 class Item {
 
-    constructor(name, description, location) {
+    constructor(name, description, position) {
         this._name = name;
         this._description = description;
-        this._position = location;
+        this._position = position;
     }
     // Get _name function
     get name() {
@@ -139,10 +139,12 @@ class Item {
 // Define Character class
 class Character {
 
-    constructor(name, description, conversation) {
+    constructor(name, description, pronoun, conversation) {
         this._name = name;
         this._description = description;
+        this._pronoun = pronoun;
         this._conversation = conversation;
+        this._linkedItems = [];
     }
     // Get _name function
     get name() {
@@ -152,45 +154,60 @@ class Character {
     get description() {
         return this._description;
     }
+    // Get _pronoun 
+    get pronoun() {
+        return this._pronoun;
+    }
     //Get _conversation
     get conversation() {
         return this._conversation;
     }
-    // Get _room
-    get room() {
-        return this._room;
+    // Get _linkedItems functions
+    get linkedItems() {
+        return this._linkedItems;
     }
     // Set _name function
     set name(newName) {
-        if (newName.length < 4) {
-            alert("Name is too short.");
-        }
         this._name = newName;
     }
     // Set _description function
     set description(newDescription) {
-        if (newDescription.length > 150) {
-            alert("Description is too long.");
-        }
         this._description = newDescription;
     }
-    // Set new conversation text
+    // Set _pronoun function
+    set pronoun(newPronoun) {
+        this._pronoun = newPronoun;
+    }
+    // Set _conversation text
     set conversation(newConversation) {
         this._conversation = newConversation;
     }
-    // Set location within the room where the item is
-    set room(newRoom) {
-        // Add check this this is an exisitng room
-        this._room = newRoom;
+    describe() {
+        // ** Maybe update phrasing **
+        return this._name + " is " + this._description + ".";
     }
     // Function to output item description text
     talk() {
         return this._name + ": " + this._conversation;
     }
+    // Function to add a linked item
+    linkItem(itemToLink) {
+        // Check the provided argument is of the correct class 
+        if (itemToLink instanceof Item) {
+            this._linkedItems.push(itemToLink);
+        }
+        else {
+            alert(itemToLink.name + " is not an item");
+        }
+    }
+    // Function to remove a linked item
+    unlinkItem(itemToUnlink) {
+        // Filter to remove the item to be unlinked from the array
+        this._linkedItems = this._linkedItems.filter(el => {
+            return el != itemToUnlink;
+        });
+    }
 }
-
-// MAYBE DEFINE A CLASS FOR BACKPACK (This could be upgradable though the game hence the need for a subclass)
-
 
 // Define subclass Enemy
 class Enemy extends Character {
