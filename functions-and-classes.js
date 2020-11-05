@@ -5,6 +5,8 @@ class Room {
         this._name = name;
         this._description = description;
         this._linkedRooms = {};
+        this._linkedItems = [];
+        this._linkedCharacters = [];
     }
     // Get _name function
     get name() {
@@ -18,27 +20,67 @@ class Room {
     get linkedRooms() {
         return this._linkedRooms;
     }
+    // Get _linkedItems functions
+    get linkedItems() {
+        return this._linkedItems;
+    }
+    // Get _linkedCharacters functions
+    get linkedCharacters() {
+        return this._linkedCharacters;
+    }
     // Set _name function
     set name(newName) {
-        if (newName.length < 4) {
-            alert("Name is too short.");
-        }
         this._name = newName;
     }
     // Set _description function
     set description(newDescription) {
-        if (newDescription.length > 150) {
-            alert("Description is too long.");
-        }
         this._description = newDescription;
     }
     // Function to output room description text about what can be seen in the room
     describe() {
+        // ** Maybe update phrasing **
         return "When you walk into the " + this._name + " you see " + this._description + ".";
     }
-    // Function to add linked rooms
+    // Function to add a linked room
     linkRoom(direction, roomToLink) {
-        this._linkedRooms[direction] = roomToLink;
+        if (roomToLink instanceof Room) {
+            this._linkedRooms[direction] = roomToLink;
+        }
+        else {
+            alert(roomToLink.name + " is not a room");
+        }
+    }
+    // Function to add a linked item
+    linkItem(itemToLink) {
+        if (itemToLink instanceof Item) {
+            this._linkedItems.push(itemToLink);
+        }
+        else {
+            alert(itemToLink.name + " is not an item");
+        }
+    }
+    // Function to add a linked character
+    linkCharacter(characterToLink) {
+        if (characterToLink instanceof Character) {
+            this._linkedCharacters.push(characterToLink);
+        }
+        else {
+            alert(characterToLink.name + " is not an item");
+        }
+    }
+    // Function to remove a linked item
+    unlinkItem(itemToUnlink) {
+        // Filter to remove the item to be unlinked from the array
+        this._linkedItems = this._linkedItems.filter(el => {
+            return el != itemToUnlink;
+        });
+    }
+    // Function to remove a linked character
+    unlinkCharacter(characterToUnlink) {
+        // Filter to remove the item to be unlinked from the array
+        this._linkedCharacters = this._linkedCharacters.filter(el => {
+            return el != characterToUnlink;
+        });
     }
     // Function to move between rooms
     move(direction) {
@@ -55,11 +97,10 @@ class Room {
 // Define Item class
 class Item {
 
-    constructor(name, description, location, room) {
+    constructor(name, description, location) {
         this._name = name;
         this._description = description;
         this._locationWithinRoom = location;
-        this._room = room;
     }
     // Get _name function
     get name() {
@@ -123,7 +164,6 @@ class Character {
         this._name = name;
         this._description = description;
         this._conversation = conversation;
-        this._room = room;
     }
     // Get _name function
     get name() {
