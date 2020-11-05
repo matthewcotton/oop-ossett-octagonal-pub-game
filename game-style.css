@@ -1,0 +1,20 @@
+#gamearea
+  {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height:600px;
+    width:800px;
+    background-color: #4b3a01;
+    border-radius: 10px;
+    color: #c5c5c2;
+    padding:20px;
+  }
+
+  .title {
+      margin-top: 2rem;
+  }

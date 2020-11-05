@@ -16,15 +16,15 @@ class Room {
     get description() {
         return this._description;
     }
-    // Get _linkedRooms functions
+    // Get _linkedRooms function
     get linkedRooms() {
         return this._linkedRooms;
     }
-    // Get _linkedItems functions
+    // Get _linkedItems function
     get linkedItems() {
         return this._linkedItems;
     }
-    // Get _linkedCharacters functions
+    // Get _linkedCharacters function
     get linkedCharacters() {
         return this._linkedCharacters;
     }
@@ -162,7 +162,7 @@ class Character {
     get conversation() {
         return this._conversation;
     }
-    // Get _linkedItems functions
+    // Get _linkedItems function
     get linkedItems() {
         return this._linkedItems;
     }
@@ -211,18 +211,41 @@ class Character {
 
 // Define subclass Enemy
 class Enemy extends Character {
-    constructor(name, weakness, strength) {
-        super(name, "Bad Guy", "I'm a badddd guy. Derder-de-derderderder.");
-        this._weakness = weakness;
-        this._strength = strength;
+
+    constructor(name, description, pronoun, conversation, weakness) {
+        super(name, description, pronoun, conversation);
+        this._weakness = [];
+        // Weakness is an optional argument when defining an instance of this class
+        if (typeof weakness !== "undefined") {
+            this.addWeakness(weakness);
+        }
     }
+    // ** Add dead or alive property ** OR could change description to dead
 
-    // Add dead or alive property
-
-    // Fight function
+    // Get weakness function
+    get weakness() {
+        return this._weakness;
+    }
+    // Add weakness function
+    addWeakness(newWeakness) {
+        // Check the provided argument is of the correct class 
+        if (newWeakness instanceof Item) {
+            this._weakness.push(newWeakness);
+        }
+        else {
+            alert(newWeakness.name + " is not an item");
+        }
+    }
+    // Remove weakness function 
+    removeWeakness(itemToRemove) {
+        // Filter to remove the item to be unlinked from the array
+        this._weakness = this._weakness.filter(el => {
+            return el != itemToRemove;
+        });
+    }
+    // Fight function (true means sucessful attack)
     fight(item) {
-        if (item = this._weakness) {
-            // Update dead property
+        if (this._weakness.includes(item)) {
             return true;
         }
         return false;
