@@ -43,6 +43,7 @@ class Room {
     }
     // Function to add a linked room
     linkRoom(direction, roomToLink) {
+        // Check the provided argument is of the correct class 
         if (roomToLink instanceof Room) {
             this._linkedRooms[direction] = roomToLink;
         }
@@ -52,6 +53,7 @@ class Room {
     }
     // Function to add a linked item
     linkItem(itemToLink) {
+        // Check the provided argument is of the correct class 
         if (itemToLink instanceof Item) {
             this._linkedItems.push(itemToLink);
         }
@@ -61,6 +63,7 @@ class Room {
     }
     // Function to add a linked character
     linkCharacter(characterToLink) {
+        // Check the provided argument is of the correct class 
         if (characterToLink instanceof Character) {
             this._linkedCharacters.push(characterToLink);
         }
@@ -100,7 +103,7 @@ class Item {
     constructor(name, description, location) {
         this._name = name;
         this._description = description;
-        this._locationWithinRoom = location;
+        this._position = location;
     }
     // Get _name function
     get name() {
@@ -110,51 +113,27 @@ class Item {
     get description() {
         return this._description;
     }
-    // Get _linkedRooms functions
-    get linkedRooms() {
-        return this._linkedRooms;
-    }
-    //Get _locationWithinRoom
-    get location() {
-        return this._locationWithinRoom;
-    }
-    // Get _room
-    get room() {
-        return this._room;
+    //Get _position
+    get position() {
+        return this._position;
     }
     // Set _name function
     set name(newName) {
-        if (newName.length < 4) {
-            alert("Name is too short.");
-        }
         this._name = newName;
     }
     // Set _description function
     set description(newDescription) {
-        if (newDescription.length > 150) {
-            alert("Description is too long.");
-        }
         this._description = newDescription;
     }
-    // Set room that the item is in
-    set location(newLocation) {
-        this._locationWithinRoom = newLocation;
-    }
-    // CHANGE THIS SO THAT ITEMS AND ENEMIES ARE ADDED TO ROOMS IN THE ROOM AND NOT IN THE ITEM OR CHARACTER
-    // Set location within the room where the item is
-    set room(newRoom) {
-        // Add check this this is an exisitng room
-        this._room = newRoom;
+    // Set _position of the item
+    set position(newPosition) {
+        this._position = newPosition;
     }
     // Function to output item description text
     describe() {
-        return "The " + this._name + " is on the " + this._locationWithinRoom + " it looks " + this._description + ".";
+        // ** Maybe update phrasing **
+        return "The " + this._name + " is on the " + this._position + " it looks " + this._description + ".";
     }
-    // Function to interact with the item 
-    /*
-    interact(direction) {
-        
-    } */
 }
 
 // Define Character class
