@@ -2,38 +2,64 @@
 <html lang="en">
 
 <head>
-    <!--required meta-->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--Bootstrap css-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <!--Custom css-->
-    <link rel="stylesheet" type="text/css" href="game-style.css">
+  <!--required meta-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!--Bootstrap css-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <!--Custom css-->
+  <link rel="stylesheet" type="text/css" href="game-style.css">
 </head>
 
 <body>
-    <div class="container">
-      <div class="row">
-        <h1 class="title">OOP (Octagonal Ossett Pub) Game</h1>
-      </div>
-        <div id="gamearea">
-          <div id="details">
-            
-              <!--intro content-->
-              <div class="text-center">
-                <p id="textarea" class="text-center"></p><br /><br />
-                <input id="usertext" type="text" />
-              </div>
-          </div>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <h1 class="title">OPP (New Name Needed) Pub Game</h1>
+    </div>
+    <div id="game-area">
+      <div class="row justify-content-md-center">
+        <div id="room-area" class="output-area">
+          <h5>Room</h5>
+          <p id=room-text></p>
         </div>
-        <div class="footer">
-          
+        <div id="item-area" class="output-area">
+          <h5>Items</h5>
+          <p id="item-text"></p>
         </div>
       </div>
-    <!-- link to external JavaScript-->
-    <script src="functions-and-classes.js"></script>
-    <script src="opp-game.js"></script>
+      <div class="row justify-content-md-center">
+        <div id="convo-area" class="output-area">
+          <h5>Conversation</h5>
+          <p id="convo-text"></p>
+        </div>
+        <div id="inner-mono-area" class="output-area ">
+          <h5>Inner Monologue</h5>
+          <p id="inner-text"></p>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div id="input-area" class="text-center">
+          <label id="command-text" for="user-text">Command:</label>
+          <input id="user-text" type="text" />
+        </div>
+      </div>
+
+    </div>
+    <div class="footer">
+      <div class="row justify-content-md-center">
+        <p class="col-sm">Website Creator: Matthew Cotton</p>
+        <p class="col-sm"><a href="https://github.com/matthewcotton" target="_blank">My GitHub
+            Profile</a></p>
+        <!-- **ADD LINK** -->
+        <p class="col-sm"><a href="" target="_blank">Project Repo</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- link to external JavaScript-->
+  <script src="functions-and-classes.js"></script>
+  <script src="opp-game.js"></script>
 </body>
 
 </html>

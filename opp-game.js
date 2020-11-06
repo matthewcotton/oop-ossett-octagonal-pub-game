@@ -67,7 +67,7 @@ startGame(Commonside);
 
 document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-        var command = document.getElementById("usertext").value;
+        var command = document.getElementById("user-text").value;
 
         // Define valid direction commands
         const directions = ["north", "south", "east", "west"];
@@ -80,7 +80,7 @@ document.addEventListener("keydown", function (event) {
         if (directions.includes(command.toLowerCase())) {
             currentRoom = currentRoom.move(command); // try adding toLowerCase here
             displayRoom(currentRoom);
-            document.getElementById("usertext").value = "";
+            document.getElementById("user-text").value = "";
         }
         // Actions for lisiting items in pockets
         else if (pocketCommands.includes(command.toLowerCase())) {
@@ -91,7 +91,7 @@ document.addEventListener("keydown", function (event) {
         }
 
         else {
-            document.getElementById("usertext").value = "";
+            document.getElementById("user-text").value = "";
             alert("This is not a valid command.");
         }
     }
