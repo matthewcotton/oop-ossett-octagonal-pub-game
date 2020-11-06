@@ -262,12 +262,20 @@ class Enemy extends Character {
             return el != itemToRemove;
         });
     }
-    // Fight function (true means sucessful attack)
+    // Fight function. Returns strength of enemy
     fight(item) {
+        // Attack with weakness item results in -5 from strength
         if (this._weakness.includes(item)) {
-            return true;
+            var weaknessAttackPoints = -5;
+            this.changeStrength(weaknessAttackPoints);
         }
-        return false;
+        // Attack from any other item results in -1 from strength
+        else {
+            var normaAttackPoints = -1;
+            this.changeStrength(normaAttackPoints);
+        }
+        // Return new strength
+        return this._strength;
     }
 }
 
@@ -283,12 +291,12 @@ class Friend extends Character {
         if (drink instanceof Beer) {
             // When a character is given a pint their strength increases by +2
             if (drink.size === "pint") {
-                let pintPoints = 2;
+                var pintPoints = 2;
                 this.changeStrength(pintPoints);
             }
             // When a character is given a pint their strength increases by +1
             else if (drink.size === "half pint") {
-                let halfPintPoints = 1;
+                var halfPintPoints = 1;
                 this.changeStrength(halfPintPoints);
             }
         }
