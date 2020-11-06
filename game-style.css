@@ -1,20 +1,41 @@
-#gamearea
-  {
+body {
+    background-image: url("resources/wooden-panel.jpg");
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    position: absolute;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height:600px;
-    width:800px;
+}
+
+.output-area {
     background-color: #4b3a01;
     border-radius: 10px;
     color: #c5c5c2;
-    padding:20px;
-  }
+    padding: 20px;
+    margin: 2rem;
+    min-width: 450px;
+    min-height: 200px;
+}
 
-  .title {
-      margin-top: 2rem;
-  }
+.title {
+    margin-top: 2rem;
+    color: black;
+    border-radius: 10px;
+    margin: 1rem;
+    padding: 0.5rem;
+    background-color: blanchedalmond;
+}
+
+.footer {
+    background-color: beige;
+    border-radius: 10px;
+    margin: 1rem;
+    padding: 0.5rem;
+}
+
+#input-area {
+    background-color: #223500;
+    padding: 20px;
+    margin: 2rem;
+    border-radius: 10px;    
+}
+
+#command-text {
+    color: #c5c5c2;;
+}
