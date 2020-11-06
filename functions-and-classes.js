@@ -295,7 +295,6 @@ class Friend extends Character {
         else {
             alert(drink.name + " is not a beer");
         }
-        // Return text
     }
 }
 
@@ -336,3 +335,37 @@ class Beer extends Item {
         }
     }
 }
+
+// Function to display room within the textarea
+function displayRoom(room) {
+    document.getElementById("textarea").innerHTML = room.describe();
+    document.getElementById("usertext").focus();
+}
+
+// Function to start the game in the Grand Enterance Hall
+function startGame(currentRoom) {
+    displayRoom(currentRoom);
+}
+
+// Function to change value default range 0-100
+function countInRange(currentValue, changeValue, minRange, maxRange) {
+    // Set default range if not provided
+    if (typeof minRange === "undefined") {
+        minRange = 0;
+    }
+    if (typeof maxRange === "undefined") {
+        maxRange = 100;
+    }
+    // Change value 
+    let newValue = currentValue + changeValue
+    // Check newValue is within range
+    if (newValue < minRange) {
+        newValue = minRange;
+    }
+    else if (newValue > maxRange) {
+        newValue = maxRange;
+    }
+    // return result
+    return newValue;
+}
+
