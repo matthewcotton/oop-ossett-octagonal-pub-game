@@ -33,13 +33,26 @@ const TimTaylor = new Friend("Tim Taylor", "middle ages landlord", "he", "What '
 const SamSmith = new Enemy("Sam Smith", "grumpy old mad", "he", "Put that phone away.", ChocCake);
 
 // Link rooms
-Enterance.linkRoom("east", Kitchen);
-Enterance.linkRoom("west", CardRoom);
-Kitchen.linkRoom("west", Enterance);
-Kitchen.linkRoom("north", Pantry);
-CardRoom.linkRoom("east", Enterance);
-Pantry.linkRoom("south", Kitchen);
-
+Commonside.linkRoom("north", Hallway);
+Hallway.linkRoom("south", Commonside);
+Hallway.linkRoom("east", GamesRoom);
+Hallway.linkRoom("west", Sung);
+GamesRoom.linkRoom("west", Hallway);
+Sung.linkRoom("east", Hallway);
+Sung.linkRoom("north", BarArea);
+BarArea.linkRoom("south", Sung);
+BarArea.linkRoom("east", Stairs);
+BarArea.linkRoom("north", Lounge);
+Lounge.linkRoom("south", BarArea);
+Lounge.linkRoom("east", SnookerRoom);
+SnookerRoom.linkRoom("west", Lounge);
+Stairs.linkRoom("west", BarArea);
+Stairs.linkRoom("north", Basement);
+Basement.linkRoom("south", Stairs);
+Basement.linkRoom("west", BeerGarden);
+BeerGarden.linkRoom("east", Basement);
+BeerGarden.linkRoom("north", BarberPlace);
+BarberPlace.linkRoom("south", BeerGarden);
 
 // Link items to rooms
 
@@ -50,7 +63,7 @@ Pantry.linkRoom("south", Kitchen);
 
 
 // Start game 
-startGame(Enterance);
+startGame(Commonside);
 
 document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
