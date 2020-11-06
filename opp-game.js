@@ -22,10 +22,12 @@ const Pantry = new Room("Pantry", "a squalid little room containing mostly rotte
 // Define items (instances of the class Room)
 const Atm = new Item("ATM", "big gray box", "just outside the loo");
 const Tenner = new Item("A Tenner", "folded in half", "on the floor");
-const ChocCake= new Item("Chocolate Cake", "rich cake made with a local breweries fruit beer", "in Sam Smiths hands");
+const ChocCake = new Item("Chocolate Cake", "rich cake made with a local breweries fruit beer", "in Sam Smiths hands");
+const Landlord = new Beer("Landlord", "Timothy Taylor's", "pint", "The drinkers’ favourite, a classic pale ale with a complex citrus and hoppy aroma. A recent survey revealed that Landlord has the highest proportion of drinkers who call it their favourite ale.", "on the bar");
+const Jaipur = new Beer("Jaipur", "Thronbridge", "half pint", "This American style IPA has a complexity of flavours created by a six-dimensional hop experience. Jaipur's hoppiness builds in the mouth and bursts with powerful citrus fruit flavours, culminating in a remarkably smooth finish and making it a deliciously drinkable IPA.", "on a table");
 
 // Define characters (instances of the class Character or subclasses)
-const TimTaylor = new Character("Tim Taylor", "middle ages landlord", "he", "What 'ger want?");
+const TimTaylor = new Friend("Tim Taylor", "middle ages landlord", "he", "What 'ger want?");
 const SamSmith = new Enemy("Sam Smith", "grumpy old mad", "he", "Put that phone away.", ChocCake);
 
 // Link rooms
@@ -53,7 +55,7 @@ startGame(Enterance);
 document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
         var command = document.getElementById("usertext").value;
-        
+
         // Define valid direction commands
         const directions = ["north", "south", "east", "west"];
 
@@ -82,3 +84,10 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+
+TimTaylor.changeStrength(-5);
+console.log(TimTaylor.strength);
+TimTaylor.givePint(Jaipur);
+console.log(TimTaylor.strength);
+TimTaylor.changeStrength(-2);
+console.log(TimTaylor.strength);

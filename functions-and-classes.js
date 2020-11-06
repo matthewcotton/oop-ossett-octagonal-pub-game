@@ -145,7 +145,7 @@ class Character {
         this._pronoun = pronoun;
         this._conversation = conversation;
         this._linkedItems = [];
-        this._strength = 10
+        this._strength = 10;
     }
     // Get _name function
     get name() {
@@ -188,7 +188,7 @@ class Character {
         this._conversation = newConversation;
     }
     // Set _strength
-    set strength(strengthChange) {
+    changeStrength(strengthChange) {
         // If strengh is zero it can NOT be changed
         if (this._strength === 0) {
             return;
@@ -200,7 +200,7 @@ class Character {
             this._strength = 0;
         }
         else if (this._strength > 10) {
-            this.strength = 10;
+            this._strength = 10;
         }
     }
     describe() {
@@ -281,7 +281,19 @@ class Friend extends Character {
     givePint(drink) {
         // Check item is a pint
         if (drink instanceof Beer) {
-
+            // When a character is given a pint their strength increases by +2
+            if (drink.size === "pint") {
+                let pintPoints = 2;
+                this.changeStrength(pintPoints);
+            }
+            // When a character is given a pint their strength increases by +1
+            else if (drink.size === "half pint") {
+                let halfPintPoints = 1;
+                this.changeStrength(halfPintPoints);
+            }
+        }
+        else {
+            alert(drink.name + " is not a beer");
         }
         // Return text
     }
