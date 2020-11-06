@@ -1,23 +1,25 @@
 
-// Function to display room within the textarea
-function displayRoom(room) {
-    document.getElementById("textarea").innerHTML = room.describe();
-    document.getElementById("usertext").focus();
-}
+// Declare pockets and hand vairables with starting items
+let pockets = ["wallet", "phone"];
+let hands = [];
 
-// Function to start the game in the Grand Enterance Hall
-function startGame(currentRoom) {
-    displayRoom(currentRoom);
-}
-
-
-// ** MAIN FUNCTION **
+// Declare bladder variable (range 0-100) Set starting value to 25
+let bladder = 25;
+// Declare hunger variable (range 0 -100) Set starting value to 50
+let hunger = 50;
 
 // Define rooms (instances of the class Room)
-const Kitchen = new Room("Kitchen", "filthy room with broken applicances");
-const CardRoom = new Room("Card Room", "a lot of dust covering a green velvet card table");
-const Enterance = new Room("Grand Enterance Hall", "what appears to once have been a very grand staircase although it now looks dangerous")
-const Pantry = new Room("Pantry", "a squalid little room containing mostly rotten food");
+const Commonside = new Room("Commonside", "text1");
+const Hallway = new Room("Hallway", "text2");
+const Sung = new Room("Snug", "text3")
+const GamesRoom = new Room("Games Room", "text4");
+const BarArea = new Room("Bar Area", "text5");
+const Lounge = new Room("Lounge", "text6");
+const SnookerRoom = new Room("Snooker Room", "text7");
+const Stairs = new Room("Stairs", "text7");
+const Basement = new Room("Basement", "text8");
+const BeerGarden = new Room("Beer Garden", "text9");
+const BarberPlace = new Room("Barber Place", "text10");
 
 // Define items (instances of the class Room)
 const Atm = new Item("ATM", "big gray box", "just outside the loo");
@@ -45,9 +47,7 @@ Pantry.linkRoom("south", Kitchen);
 // Link characters to rooms
 
 
-// Declare pockets and hand vairables with starting items
-let pockets = ["wallet", "phone"];
-let hands = [];
+
 
 // Start game 
 startGame(Enterance);
@@ -84,10 +84,3 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-
-TimTaylor.changeStrength(-5);
-console.log(TimTaylor.strength);
-TimTaylor.givePint(Jaipur);
-console.log(TimTaylor.strength);
-TimTaylor.changeStrength(-2);
-console.log(TimTaylor.strength);
