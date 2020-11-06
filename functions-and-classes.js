@@ -344,10 +344,16 @@ class Beer extends Item {
     }
 }
 
-// Function to display room within the textarea
+// Function to display room within the text-area
 function displayRoom(room) {
-    document.getElementById("textarea").innerHTML = room.describe();
-    document.getElementById("usertext").focus();
+    // Check room is an instance of class Room
+    if (room instanceof Room) {
+        document.getElementById("text-area").innerHTML = room.describe();
+        document.getElementById("user-text").focus();
+    }
+    else {
+        alert(room.name + " is not a room");
+    }
 }
 
 // Function to start the game in the Grand Enterance Hall
