@@ -60,11 +60,7 @@ BarberPlace.linkRoom("south", BeerGarden);
 // Link characters to rooms
 
 
-
-
-// Start game 
-startGame(Commonside);
-
+// Event Listener
 document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
         var command = document.getElementById("user-text").value;
@@ -78,7 +74,7 @@ document.addEventListener("keydown", function (event) {
 
         // Actions for move commands
         if (directions.includes(command.toLowerCase())) {
-            currentRoom = currentRoom.move(command); // try adding toLowerCase here
+            currentRoom = currentRoom.move(command.toLowerCase());
             displayRoom(currentRoom);
             document.getElementById("user-text").value = "";
         }
@@ -97,3 +93,12 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+
+// Declare staring room
+let currentRoom = Commonside;
+
+// Start game 
+startGame(currentRoom);
+
+// TEST ZONE
+console.log(Commonside);

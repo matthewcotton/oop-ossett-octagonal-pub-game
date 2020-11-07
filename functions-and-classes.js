@@ -348,7 +348,7 @@ class Beer extends Item {
 function displayRoom(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
-        document.getElementById("text-area").innerHTML = room.describe();
+        document.getElementById("room-text").innerHTML = room.describe();
         document.getElementById("user-text").focus();
     }
     else {
