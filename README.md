@@ -1,3 +1,3 @@
-# OPP Ossett Octagonal Pub Game
+# OPP Text Adventure - Pub Game
 
-This is a text based adventaure game based in The Three Pigeons pub in Halifax which is run by Ossett Brewery.  
+This is a text based adventaure game based on The Hallanshire House pub in Sheffield which is run by Thornbridge.  
