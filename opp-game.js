@@ -78,7 +78,7 @@ document.addEventListener("keydown", function (event) {
         const peopleCommands = ["people", "person"];
         const convoCommands = charactersInRoom(currentRoom);
         const itemActions = itemsInRoom(currentRoom);
-        
+
 
         // Actions for move commands
         if (directions.includes(command)) {
@@ -89,6 +89,36 @@ document.addEventListener("keydown", function (event) {
             displayItems(currentRoom);
             displayCharaters(currentRoom);
             clearInput("user-text");
+
+            // Declare a warning variable
+            var warnings = [];
+
+            // Update bladder 
+            bladder = countInRange(bladder, 1);
+
+            // Game over if bladder hits 100%
+            if (bladder === 100) {
+                gameOver("bladder");
+            }
+            // Warning if bladder is 70% or above
+            else if (bladder >= 70) {
+                warnings.push("bladder");
+            }
+
+            // Update hunger
+            hunger = countInRange(hunger, -1);
+
+            // Game over if hunger hits 100%
+            if (hunger === 0) {
+                gameOver("hunger");
+            }
+            // Warning if bladder is 70% or above
+            else if (hunger <= 15) {
+                warnings.push("hunger");
+            }
+
+            // Display warnings in thoughts
+            displayThoughts(warnings);
         }
         // Actions for lisiting items in pockets
         else if (pocketCommands.includes(command)) {
@@ -128,6 +158,8 @@ document.addEventListener("keydown", function (event) {
             clearInput("user-text");
             alert("This is not a valid command.");
         }
+
+
     }
 });
 
@@ -139,5 +171,6 @@ let currentRoom = Commonside;
 startGame(currentRoom);
 
 // TEST ZONE
+
 
 

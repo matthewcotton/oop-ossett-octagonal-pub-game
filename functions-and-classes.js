@@ -524,6 +524,22 @@ function displayItemInfo(room, itemName) {
     });
 }
 
+// display thoughts 
+function displayThoughts(...type) {
+    
+    let text = "";
+
+    // Bladder warning
+    if (type[0].includes("bladder")) {
+        text += "<p>I need a wee! Bladder is " + bladder + "% full</p>";
+    }
+    // Hunger warning
+    if (type[0].includes("hunger")) {
+        text += "<p><b>rumble rumble</b> I'm hungry. Stomach is " + hunger + "% full</p>";
+    }
+    // Display text in thoughts text div
+    document.getElementById("thoughts-text").innerHTML = text;
+}
 
 // Fight sequence
 function fightSequence(character, item) {
@@ -559,4 +575,33 @@ function startGame(currentRoom) {
     displayDirections(currentRoom);
     displayItems(currentRoom);
     displayCharaters(currentRoom);
+}
+
+// game over function
+function gameOver(...type) {
+
+    let text = "<h2>GAME OVER</h2>";
+
+    // If game over due to bladder reaching 100%
+    if (type[0].includes("bladder")) {
+        text += "<h4><i>Oops</i></h4><h4>You wet yourself.</h4>";
+    }
+    // If game over due to hunger reaching 0%
+    if (type[0].includes("hunger")) {
+        text += "<h4>You'er so hungry you passed out.<h4>";
+    }
+
+    text += "<p>Refresh the webpage to try again.</p>";
+
+    // Display game over text
+    let gameArea = document.getElementById("game-area");
+    
+    // Style the game area div
+    gameArea.innerHTML = text;
+    gameArea.style.backgroundColor = "rgba(255, 0, 0, 0.80)";
+    gameArea.style.color = "white";
+    gameArea.style.textAlign = "center";
+    gameArea.style.borderRadius = "7px";
+    gameArea.style.padding = "0.5rem";
+    gameArea.style.margin = "0.5rem";
 }
