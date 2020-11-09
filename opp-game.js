@@ -13,8 +13,8 @@ const BeerGarden = new Room("Beer Garden", "four picnic benches on a wooden deck
 const BarberPlace = new Room("Barber Place", "a street full of parked cars and terraced houses");
 
 // Define items (instances of the class Room)
-const Phone = new Item("Phone", "a very old but still functional Nokia 3210");
-const Wallet = new Item("Wallet", "dirty and half fallen apart")
+const Phone = new Item("Phone", "a very old but still functional Nokia 3210. To call for help use the command <i>call</i>");
+const Wallet = new Item("Wallet", "dirty and half fallen apart. It contains £0.00")
 const Atm = new Item("ATM", "big gray box");
 const Tenner = new Item("Tenner", "folded in half");
 const ChocCake = new Item("Chocolate Cake", "rich cake made with a local breweries fruit beer");
@@ -65,6 +65,11 @@ let hands = [Jaipur];
 let bladder = 25;
 // Declare hunger variable (range 0 -100) Set starting value to 50
 let hunger = 50;
+
+// Declare cash variable
+let cash = 0.00;
+// Set starting cash ballance 
+cash = updateCash(cash, 25.35);
 
 // Event Listener
 document.addEventListener("keydown", function (event) {
@@ -185,4 +190,3 @@ let currentRoom = Commonside;
 startGame(currentRoom);
 
 // TEST ZONE
-

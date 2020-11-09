@@ -680,6 +680,19 @@ function countInRange(currentValue, changeValue, minRange, maxRange) {
 }
 
 
+// Update cash in wallet
+function updateCash(value, change) {
+    // Update cash variable
+    value = value + change;
+    // Update Wallet description
+    var newDescription = "dirty and half fallen apart. It contains £" + String(value);
+    Wallet.description = newDescription;
+    // return the new cash value
+    return value;
+}
+
+
+
 // ## START AND END GAME FUNCTIONS ##
 
 // Function to start the game in the Grand Enterance Hall
