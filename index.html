@@ -19,40 +19,49 @@
     </div>
     <div id="game-area">
       <div class="row justify-content-md-center">
-        <div id="room-area" class="output-area">
+        <div id="room-area" class="output-area col-sm">
           <h5>Room</h5>
           <p id=room-text></p>
         </div>
-        <div id="item-area" class="output-area">
-          <h5>Items</h5>
+        <div id="item-area" class="output-area col-sm">
+          <h5 id="item-title"></h5>
           <p id="item-text"></p>
         </div>
       </div>
       <div class="row justify-content-md-center">
-        <div id="convo-area" class="output-area">
-          <h5>Conversation</h5>
-          <p id="convo-text"></p>
+        <div id="dir-area" class="output-area col-sm">
+          <h5>Directions</h5>
+          <div id="dir-text"></div>
         </div>
-        <div id="inner-mono-area" class="output-area ">
-          <h5>Inner Monologue</h5>
-          <p id="inner-text"></p>
+        <div id="convo-area" class="output-area col-sm">
+          <h5 id="convo-title"></h5>
+          <p id="convo-text"></p>
         </div>
       </div>
       <div class="row justify-content-md-center">
-        <div id="input-area" class="text-center">
-          <label id="command-text" for="user-text">Command:</label>
-          <input id="user-text" type="text" />
+        <div id="thoughts-area" class="output-area col-sm">
+          <h5 id ="thoughts-title">Thoughts</h5>
+          <div id="thoughts-text"></div>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-sm">
+          <div id="input-area" class="text-center">
+            <label id="command-text" for="user-text">Command:</label>
+            <input id="user-text" type="text" />
+            <p>All words in italics are valid commands</p>
+          </div>
         </div>
       </div>
 
     </div>
     <div class="footer">
       <div class="row justify-content-md-center">
-        <p class="col-sm">Website Creator: Matthew Cotton</p>
-        <p class="col-sm"><a href="https://github.com/matthewcotton" target="_blank">My GitHub
+        <p class="col-md">Website Creator: Matthew Cotton</p>
+        <p class="col-md"><a href="more-info.html">More Information</a></p>
+        <p class="col-md"><a href="https://github.com/matthewcotton" target="_blank">My GitHub
             Profile</a></p>
-        <!-- **ADD LINK** -->
-        <p class="col-sm"><a href="" target="_blank">Project Repo</a>
+        <p class="col-md"><a href="https://github.com/matthewcotton/oop-text-adventure" target="_blank">Project Repo</a>
         </p>
       </div>
     </div>

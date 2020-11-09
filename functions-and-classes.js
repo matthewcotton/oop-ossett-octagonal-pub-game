@@ -39,7 +39,7 @@ class Room {
     // Function to output room description text about what can be seen in the room
     describe() {
         // ** Maybe update phrasing **
-        return "When you walk into the " + this._name + " you see " + this._description + ".";
+        return "You enter the " + this._name + " and see " + this._description + ".";
     }
     // Function to add a linked room
     linkRoom(direction, roomToLink) {
@@ -348,17 +348,14 @@ class Beer extends Item {
 function displayRoom(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
-        document.getElementById("text-area").innerHTML = room.describe();
+        // Display room description in room-text section
+        document.getElementById("room-text").innerHTML = room.describe();
+        // Focus on the command input box
         document.getElementById("user-text").focus();
     }
     else {
         alert(room.name + " is not a room");
     }
-}
-
-// Function to start the game in the Grand Enterance Hall
-function startGame(currentRoom) {
-    displayRoom(currentRoom);
 }
 
 // Function to change value default range 0-100
@@ -383,3 +380,228 @@ function countInRange(currentValue, changeValue, minRange, maxRange) {
     return newValue;
 }
 
+// display directions function
+function displayDirections(room) {
+    // Check room is an instance of class Room
+    if (room instanceof Room) {
+
+        let directionText = "";
+
+        // Cycle through each linked room to build html text
+        Object.keys(room.linkedRooms).forEach(key => {
+            directionText += "<p><i>" + key + "</i>: " + room.linkedRooms[key].name + "</p>";
+        });
+
+        // Display direction text in dir-text section
+        document.getElementById("dir-text").innerHTML = directionText;
+        // Focus on the command input box
+        document.getElementById("user-text").focus();
+    }
+    else {
+        alert(room.name + " is not a room");
+    }
+}
+
+// display items
+function displayItems(room) {
+    // Check room is an instance of class Room
+    if (room instanceof Room) {
+
+        let itemText = "";
+
+        // Cycle through each linked item to build html text
+        Object.keys(room.linkedItems).forEach(key => {
+            itemText += "<p><i>" + room.linkedItems[key].name + "</i></p>";
+        });
+
+        // Display section title
+        document.getElementById("item-title").innerHTML = "<i>Items</i> In Room";
+        // Display item text in item-text section
+        document.getElementById("item-text").innerHTML = itemText;
+        // Focus on the command input box
+        document.getElementById("user-text").focus();
+    }
+    else {
+        alert(room.name + " is not a room");
+    }
+}
+
+// display characters in conversation section
+function displayCharaters(room) {
+    // Check room is an instance of class Room
+    if (room instanceof Room) {
+
+        let characterText = "";
+
+        // Cycle through each linked character to build html text
+        Object.keys(room.linkedCharacters).forEach(key => {
+            characterText += "<p><i>" + room.linkedCharacters[key].name + "</i></p>";
+        });
+
+        // Display section title
+        document.getElementById("convo-title").innerHTML = "<i>People</i> In Room";
+        // Display character text in convo-text section
+        document.getElementById("convo-text").innerHTML = characterText;
+        // Focus on the command input box
+        document.getElementById("user-text").focus();
+    }
+    else {
+        alert(room.name + " is not a room");
+    }
+}
+
+// display pockets
+function displayPockets() {
+
+    let itemText = "";
+
+    // Display items in pockets
+    if (pockets.length > 0) {
+        pockets.forEach(el => itemText += "<p><i>" + el + "</i></p>");
+    }
+    // If pockets are empty
+    else {
+        itemText = "empty";
+    }
+    // Display section title
+    document.getElementById("item-title").innerHTML = "Items In <i>Pockets</i>";
+    // Display item text in item-text section
+    document.getElementById("item-text").innerHTML = itemText;
+    // Focus on the command input box
+    document.getElementById("user-text").focus();
+}
+
+// display hands
+function displayHands() {
+
+    let itemText = "";
+
+    // Display items in hands
+    if (hands.length > 0) {
+        hands.forEach(el => itemText += "<p><i>" + el + "</i></p>");
+    }
+    // If hands are empty
+    else {
+        itemText = "empty";
+    }
+    // Display section title
+    document.getElementById("item-title").innerHTML = "Items In <i>Hands</i>";
+    // Display item text in item-text section
+    document.getElementById("item-text").innerHTML = itemText;
+    // Focus on the command input box
+    document.getElementById("user-text").focus();
+}
+
+// display conversation
+function displayConvo(room, name) {
+    // Display conversation of the character with provided name
+    room.linkedCharacters.forEach(character => {
+        if (character.name.toLowerCase() === name) {
+            // Display section title
+            document.getElementById("convo-title").innerHTML = "Conversation";
+            // Display item text in item-text section
+            document.getElementById("convo-text").innerHTML = character.talk();
+            // Focus on the command input box
+            document.getElementById("user-text").focus();
+            return
+        }
+    });
+}
+
+// display item information
+function displayItemInfo(room, itemName) {
+    // Display descriptive text of the item with provided name
+    room.linkedItems.forEach(item => {
+        if (item.name.toLowerCase() === itemName) {
+            // Display section title
+            document.getElementById("item-title").innerHTML = "Item Description";
+            // Display item text in item-text section
+            document.getElementById("item-text").innerHTML = item.describe();
+            // Focus on the command input box
+            document.getElementById("user-text").focus();
+            return
+        }
+    });
+}
+
+// display thoughts 
+function displayThoughts(...type) {
+    
+    let text = "";
+
+    // Bladder warning
+    if (type[0].includes("bladder")) {
+        text += "<p>I need a wee! Bladder is " + bladder + "% full</p>";
+    }
+    // Hunger warning
+    if (type[0].includes("hunger")) {
+        text += "<p><b>rumble rumble</b> I'm hungry. Stomach is " + hunger + "% full</p>";
+    }
+    // Display text in thoughts text div
+    document.getElementById("thoughts-text").innerHTML = text;
+}
+
+// Fight sequence
+function fightSequence(character, item) {
+
+}
+
+// Clear input function
+function clearInput(id) {
+    document.getElementById(id).value = "";
+}
+
+// Function to add character names in the current room to an array
+function charactersInRoom(room) {
+    let list = [];
+    room.linkedCharacters.forEach(character => {
+        list.push(character.name.toLowerCase());
+    });
+    return list;
+}
+
+// Function to add items in the current room to an array
+function itemsInRoom(room) {
+    let list = [];
+    room.linkedItems.forEach(item => {
+        list.push(item.name.toLowerCase());
+    });
+    return list;
+}
+
+// Function to start the game in the Grand Enterance Hall
+function startGame(currentRoom) {
+    displayRoom(currentRoom);
+    displayDirections(currentRoom);
+    displayItems(currentRoom);
+    displayCharaters(currentRoom);
+}
+
+// game over function
+function gameOver(...type) {
+
+    let text = "<h2>GAME OVER</h2>";
+
+    // If game over due to bladder reaching 100%
+    if (type[0].includes("bladder")) {
+        text += "<h4><i>Oops</i></h4><h4>You wet yourself.</h4>";
+    }
+    // If game over due to hunger reaching 0%
+    if (type[0].includes("hunger")) {
+        text += "<h4>You'er so hungry you passed out.<h4>";
+    }
+
+    text += "<p>Refresh the webpage to try again.</p>";
+
+    // Display game over text
+    let gameArea = document.getElementById("game-area");
+    
+    // Style the game area div
+    gameArea.innerHTML = text;
+    gameArea.style.backgroundColor = "rgba(255, 0, 0, 0.80)";
+    gameArea.style.color = "white";
+    gameArea.style.textAlign = "center";
+    gameArea.style.borderRadius = "7px";
+    gameArea.style.padding = "0.5rem";
+    gameArea.style.margin = "0.5rem";
+}
