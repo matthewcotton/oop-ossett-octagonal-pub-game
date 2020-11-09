@@ -57,9 +57,12 @@ Commonside.linkCharacter(ThorBridge);
 Commonside.linkCharacter(TimTaylor);
 Sung.linkCharacter(SamSmith);
 
+// Adjust characters strength values 
+TimTaylor.strength = 5;
+
 // Declare pockets and hand vairables with starting items
 let pockets = [Wallet, Phone];
-let hands = [Jaipur];
+let hands = [Jaipur, Landlord];
 
 // Declare bladder variable (range 0-100) Set starting value to 25
 let bladder = 25;
@@ -70,6 +73,9 @@ let hunger = 50;
 let cash = 0.00;
 // Set starting cash ballance 
 cash = updateCash(cash, 25.35);
+
+// Declare variable to track the active character
+let activeCharacter = "";
 
 // Event Listener
 document.addEventListener("keydown", function (event) {
@@ -86,10 +92,14 @@ document.addEventListener("keydown", function (event) {
         const itemCommands = ["items", "item", "room"];
         const itemActions = itemsIn(currentRoom);
         const peopleCommands = ["people", "person"];
-        const convoCommands = charactersInRoom(currentRoom);
+        const characterSelectCommands = charactersInRoom(currentRoom);
+        const chatCommands = ["chat", "talk"];
+        const strengthCommands = ["strength", "see strength"];
+        const fightCommands = ["fight"];
+        const weaknessCommands = ["weaknesses", "weakness", "see weaknesses", "see weakness"];
+        const givePintCommands = itemsIn("beer in hands");
         const helpCommands = ["call", "help"];
         const hangupCommands = ["hangup", "hang up", "close"];
-
 
         // Actions for move commands
         if (directions.includes(command)) {
@@ -99,6 +109,9 @@ document.addEventListener("keydown", function (event) {
             displayDirections(currentRoom);
             displayItems(currentRoom);
             displayCharaters(currentRoom);
+
+            // Reset activeCharacter
+            activeCharacter = "";
 
             // Declare a warning variable
             var warnings = [];
@@ -142,38 +155,100 @@ document.addEventListener("keydown", function (event) {
         }
         // Actions for listing items in room
         else if (itemCommands.includes(command)) {
-
             displayItems(currentRoom);
         }
-        // Actions for conversations with people
-        else if (convoCommands.includes(command)) {
-            displayConvo(currentRoom, command);
+        // Actions to see a list of interactions with a character
+        else if (characterSelectCommands.includes(command)) {
+            activeCharacter = displayInteraction(currentRoom, command);
+        }
+        // Actions for conversations a character
+        else if (chatCommands.includes(command)) {
+            // When activeCharacter is defined
+            if (activeCharacter != "") {
+                displayConvo(activeCharacter);
+            }
+            // When activeCharacter is not defined
+            else {
+                alert("A character has not been selected. Please select a character");
+            }
+        }
+        // Actions for seeing an characters strength
+        else if (strengthCommands.includes(command)) {
+            // When activeCharacter is defined
+            if (activeCharacter != "") {
+                displayStrength(activeCharacter);
+            }
+            // When activeCharacter is not defined
+            else {
+                alert("A character has not been selected. Please select a character");
+            }
+        }
+        // Actions for seeing a characters weaknesses
+        else if (weaknessCommands.includes(command)) {
+            // When activeCharacter is defined
+            if (activeCharacter != "") {
+                displayWeaknesses(activeCharacter);
+            }
+            // When activeCharacter is not defined
+            else {
+                alert("A character has not been selected. Please select a character");
+            }
+        }
+        // Actions for fighting a character
+        else if (fightCommands.includes(command)) {
+            // ADD FUNCTIONALITY
+        }
+        // Actions for giving a pint
+        else if (givePintCommands.includes(command)) {
+            // When activeCharacter is defined
+            if (activeCharacter != "") {
+                // Give pint to character after spliting command string (as command includes the forst word give)
+                var drink = command.split(" ");
+                activeCharacter.givePint(drink[1]);
+            
+                // Display cheers message
+                displayCheers(drink[1], activeCharacter);
+
+                // Remove pint from hands
+                hands = hands.filter(item => {
+                    return item.name.toLowerCase() != drink[1]
+                });
+            }
+            // When activeCharacter is not defined
+            else {
+                alert("A character has not been selected. Please select a character");
+            }
         }
         // Actions for listing people in the room
         else if (peopleCommands.includes(command)) {
             displayCharaters(currentRoom);
+
+            // Reset activeCharacter
+            activeCharacter = "";
         }
         // Actions for items 
         else if (itemActions.includes(command)) {
             displayItemInfo(currentRoom, command);
         }
-        // Use phone to call for help
+        // Actions to use phone to call for help
         else if (helpCommands.includes(command)) {
             help();
         }
-        // Hangup phone call
+        // Actions to hangup phone call
         else if (hangupCommands.includes(command)) {
             hangup();
         }
+        // Actions to display items in pockets
         else if (pocketItems.includes(command)) {
             displayItemInfo(pockets, command);
         }
+        // Actions to display items in hands
         else if (handItems.includes(command)) {
             displayItemInfo(hands, command);
         }
 
+        // Actions for invalid commands 
         else {
-
             alert("This is not a valid command.");
         }
 
@@ -190,3 +265,4 @@ let currentRoom = Commonside;
 startGame(currentRoom);
 
 // TEST ZONE
+delete Jaipur.name;

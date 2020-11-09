@@ -180,6 +180,10 @@ class Character {
         this._conversation = newConversation;
     }
     // Set _strength
+    set strength(newStrength) {
+        this._strength = newStrength;
+    }
+    // Set _strength
     changeStrength(strengthChange) {
         // If strengh is zero it can NOT be changed
         if (this._strength === 0) {
@@ -201,7 +205,7 @@ class Character {
     }
     // Function to output item description text
     talk() {
-        return this._name + ": " + this._conversation;
+        return this._conversation;
     }
     // Function to add a linked item
     linkItem(itemToLink) {
@@ -279,7 +283,7 @@ class Friend extends Character {
     }
     // Function to give this character a pint and changes strength acordingly
     givePint(drink) {
-        // Check item is a pint
+        // Check item is a Beer
         if (drink instanceof Beer) {
             // When a character is given a pint their strength increases by +2
             if (drink.size === "pint") {
@@ -292,8 +296,35 @@ class Friend extends Character {
                 this.changeStrength(halfPintPoints);
             }
         }
+
+        // When the name of a drink is given as text         
         else {
+            // Try to find the drink in hands
+            hands.forEach(item => {
+                if (item.name.toLowerCase() === drink) {
+                    drink = item;
+                }
+            });
+
+            // Run the same chack and clacs as above 
+            // Check item is a Beer
+            if (drink instanceof Beer) {
+                // When a character is given a pint their strength increases by +2
+                if (drink.size === "pint") {
+                    var pintPoints = 2;
+                    this.changeStrength(pintPoints);
+                }
+                // When a character is given a pint their strength increases by +1
+                else if (drink.size === "half pint") {
+                    var halfPintPoints = 1;
+                    this.changeStrength(halfPintPoints);
+                }
+            }
+
+            // When the drink provided can't be found
+            else {
             alert(drink.name + " is not a beer");
+            }
         }
     }
 }
@@ -423,7 +454,7 @@ function displayCharaters(room) {
     }
 }
 
-// display pockets
+// Display pockets
 function displayPockets() {
 
     let itemText = "";
@@ -444,7 +475,7 @@ function displayPockets() {
     document.getElementById("user-text").focus();
 }
 
-// display hands
+// Display hands
 function displayHands() {
 
     let itemText = "";
@@ -465,20 +496,98 @@ function displayHands() {
     document.getElementById("user-text").focus();
 }
 
-// display conversation
-function displayConvo(room, name) {
-    // Display conversation of the character with provided name
-    room.linkedCharacters.forEach(character => {
-        if (character.name.toLowerCase() === name) {
-            // Display section title
-            document.getElementById("convo-title").innerHTML = "Conversation";
-            // Display item text in item-text section
-            document.getElementById("convo-text").innerHTML = character.talk();
-            // Focus on the command input box
-            document.getElementById("user-text").focus();
-            return
+// Display interaction commands with a Character
+function displayInteraction(room, name) {
+
+    // Declare character variable
+    var character;
+
+    // Get full character info (not just name as text)
+    room.linkedCharacters.forEach(chara => {
+        if (name === chara.name.toLowerCase()) {
+            character = chara;
         }
     });
+
+    // For all characters
+    let text = "<p>Actions:<br><i>chat</i><br>see <i>strength</i>";
+
+    // For characters of Class Enemy
+    if (character instanceof Enemy) {
+        text += "<br><i>fight</i>";
+        text += "<br>see <i>weaknesses</i>";
+    }
+    // For characters of Class Friend
+    else if (character instanceof Friend) {
+        text += "<br><i>give</i> + name of a drink in your hands";
+    }
+
+    // Display section title
+    document.getElementById("convo-title").innerHTML = character.name;
+    // Display item text in convo-text section
+    document.getElementById("convo-text").innerHTML = text;
+    // Focus on the command input box
+    document.getElementById("user-text").focus();
+
+    // Return the active character
+    return character;
+}
+
+// Display conversation of the provided character
+function displayConvo(character) {
+    // Display section title
+    document.getElementById("convo-title").innerHTML = "Conversation with " + character.name;
+    // Display item text in item-text section
+    document.getElementById("convo-text").innerHTML = character.talk();
+    // Focus on the command input box
+    document.getElementById("user-text").focus();
+}
+
+// Display strength
+function displayStrength(character) {
+    // Display section title
+    document.getElementById("convo-title").innerHTML = character.name + " Strength";
+    // Display item text in item-text section
+    document.getElementById("convo-text").innerHTML = character.strength + " / 10";
+    // Focus on the command input box
+    document.getElementById("user-text").focus();
+}
+
+// Display weaknesses
+function displayWeaknesses(character) {
+    // Check character is of Class Enemy
+    if (character instanceof Enemy) {
+        // Display section title
+        document.getElementById("convo-title").innerHTML = character.name + " Weaknesses";
+        // Display item text in item-text section
+        let text = "<p>";
+        character.weakness.forEach(item => {
+            text += item.name + "<br>";
+        });
+        text += "</p>";
+        document.getElementById("convo-text").innerHTML = text;
+        // Focus on the command input box
+        document.getElementById("user-text").focus();
+    }
+    else {
+        alert(character.name + " is not an Enemy.");
+    }
+}
+
+// Display cheers messages after giving pint
+function displayCheers(drink, character) {
+
+    let text = "<p>";
+
+    text += "Thanks for the " + drink + ".</p>";
+    text += "<p>" + character.name + "'s strength increased to " + character.strength + " / 10</p>";
+
+    // Display section title
+    document.getElementById("convo-title").innerHTML = "Gave Pint";
+    // Display item text in item-text section
+    document.getElementById("convo-text").innerHTML = text;
+    // Focus on the command input box
+    document.getElementById("user-text").focus();
 }
 
 // Display descriptive text of the item with provided name
@@ -632,15 +741,19 @@ function clearInput(id) {
 
 // Function to add character names in the current room to an array
 function charactersInRoom(room) {
+
     let list = [];
+
     room.linkedCharacters.forEach(character => {
         list.push(character.name.toLowerCase());
     });
+
     return list;
 }
 
 // List items in room, or an array
 function itemsIn(input) {
+
     let list = [];
 
     // When a Room is provided
@@ -649,9 +762,20 @@ function itemsIn(input) {
             list.push(item.name.toLowerCase());
         });
     }
+
+    // When input is an array (used for pockets and hands)
     else if (Array.isArray(input)) {
         input.forEach(item => {
             list.push(item.name.toLowerCase());
+        });
+    }
+
+    // When input is a Beer
+    else if (input === "beer in hands") {
+        hands.forEach(item => {
+            if (item instanceof Beer) {
+                list.push("give " + item.name.toLowerCase());
+            }
         });
     }
     return list;
@@ -691,7 +815,41 @@ function updateCash(value, change) {
     return value;
 }
 
-
+/* THIS FUNCTION WILL NOT ACTUALLY DELETE VARIABLES
+// Delete item
+function deleteItem(item, location) {
+    // When item is of Class Item
+    if (item instanceof Item) {
+        delete item;
+    }
+    // When item is text and location is of Class Room
+    else if (location instanceof Room) {
+        location.linkedItems.forEach(thing => {
+            if (item === thing.name.toLowerCase()) {
+                delete thing;
+            }
+        });
+    }
+    // When item is text and location is hands
+    else if (location === "hands") {
+        
+        hands.forEach(thing => {
+            if (item === thing.name.toLowerCase()) {
+                console.log(thing);
+                delete thing;
+            }
+        });
+    }
+    // When item is text and location is pockets
+    else if (location === "pockets") {
+        pockets.forEach(thing => {
+            if (item === thing.name.toLowerCase()) {
+                delete thing;
+            }
+        });
+    }
+    
+} */
 
 // ## START AND END GAME FUNCTIONS ##
 
