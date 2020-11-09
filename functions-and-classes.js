@@ -526,7 +526,7 @@ function displayItemInfo(room, itemName) {
 
 // display thoughts 
 function displayThoughts(...type) {
-    
+
     let text = "";
 
     // Bladder warning
@@ -539,6 +539,90 @@ function displayThoughts(...type) {
     }
     // Display text in thoughts text div
     document.getElementById("thoughts-text").innerHTML = text;
+}
+
+// Display help messages
+function help() {
+    // hide game area elements
+    hide("room-area", "item-area", "dir-area", "convo-area", "thoughts-area");
+    // show 
+    show("phone-area");
+
+    let text = "<h5>Outgoing Call</h5>";
+    text += "<p><i>Ring Ring ... Ring Ring ... Ring Ring</i></p>";
+    text += "<p>Dionysus: Oh hey. Do you need some help?</p>";
+    text += "You: Yes please.</p>";
+    text += "<p>Here are the commands that you can use:</p>";
+    text += "<p><i>north, east, south</i> and <i>west</i> to navigate between rooms.</p>";
+    text += "<p><i>pockets</i> will show you what items are in your pockets.</p>";
+    text += "<p><i>hands</i> will show you what items are in your hands.</p>";
+    text += "<p><i>items</i> will show you a list of items in the room you are in. This list is auto populated every time you move into a new room.</p>";
+    text += "<p>Typing the name of an item will show you more information about that item.</p>";
+    text += "<p><i>people</i> will list all of the people in the room you are in. This list auto populates when you move into a new room.</p>";
+    text += "<p>Typing a person's name will start a conversation with them.</p>";
+
+    text += "</p>";
+
+    // Add aim of the game
+    text += "<p><br>You: But what's the point of it all?</p>";
+    text += "<p>Dionysus: Well that's a tough question but simply put you should buy your friends a few pints to increase their strength and 'deal with' people that are causing trouble.";
+    text += "<br>I'm sure you'll come across someone causing some serious trouble that you must beat to win this game.";
+    text += "<br>Oh, and make sure you don't get too hungry or have a little accident.</p>";
+
+    // Hangup command
+    text += "<p>Use the command <i>hangup</i> to end the call.</p>";
+
+    document.getElementById("phone-area").innerHTML = text;
+}
+
+// Function to display an incoming call
+function incomingCall() {
+    // hide game area elements
+    hide("room-area", "item-area", "dir-area", "convo-area", "thoughts-area");
+    // show 
+    show("phone-area");
+
+    let text = "<h5>Incoming Call</h5>";
+    text += "<p><em>didilerder didilerder didilerderder</em></p>";
+    text += "<p>Dionysus: Hello! I'm just having a pint at the Museum!</p>";
+    text += "<p>You: Are you enjoying it?</p>";
+    text += "<p>Dionysus: Nah, it's rubbish! It's total rubbish! How are you?</p>";
+    text += "<p>You: I'm not sure what is going on to be honest.</p>"; 
+    text += "<p>Dionysus: Oh no. Here are a few tips for you then."
+    text += "<br>All words shown in <i>italics</i> are valid commands. Try them out to see what happens.";
+    text += "<br>Use commands <i>north, east, south</i> and <i>west</i> to navigate between rooms.";
+    text += "<br>The commands <i>hands</i> and <i>pockets</i> will show you what items you have in your hands and pockets.";
+    text += "<br>At any time if you need help then just call me using the command <i>phone</i>.";
+    text += "<p>You: OK I'll try to remember all of that. If not, I'll give you a call.</p>";
+
+    // Hangup command
+    text += "<p>Use the command <i>hangup</i> to end the call.</p>";
+
+    document.getElementById("phone-area").innerHTML = text;
+}
+
+// Function to hangup a call and return to the main game view
+function hangup() {
+    // show game area element
+    show("room-area", "item-area", "dir-area", "convo-area", "thoughts-area");
+    // show 
+    hide("phone-area");
+}
+
+// Function for hiding the element with provided id
+function hide(...id) {
+
+    id.forEach(el => {
+        document.getElementById(el).style.display = "none";
+    });
+}
+
+// function for showing the element with provided id
+function show(...id) {
+    
+    id.forEach(el => {
+        document.getElementById(el).style.display = "block";
+    });
 }
 
 // Fight sequence
@@ -595,7 +679,7 @@ function gameOver(...type) {
 
     // Display game over text
     let gameArea = document.getElementById("game-area");
-    
+
     // Style the game area div
     gameArea.innerHTML = text;
     gameArea.style.backgroundColor = "rgba(255, 0, 0, 0.80)";

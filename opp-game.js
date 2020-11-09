@@ -1,13 +1,4 @@
 
-// Declare pockets and hand vairables with starting items
-let pockets = ["wallet", "phone"];
-let hands = [];
-
-// Declare bladder variable (range 0-100) Set starting value to 25
-let bladder = 25;
-// Declare hunger variable (range 0 -100) Set starting value to 50
-let hunger = 50;
-
 // Define rooms (instances of the class Room)
 const Commonside = new Room("Commonside", "a street with two pubs opposite one another. One is painted red and the other green. The red one says closed above the door. The green one has a wide-open front door");
 const Hallway = new Room("Hallway", "a brown door into the pub");
@@ -22,6 +13,8 @@ const BeerGarden = new Room("Beer Garden", "four picnic benches on a wooden deck
 const BarberPlace = new Room("Barber Place", "a street full of parked cars and terraced houses");
 
 // Define items (instances of the class Room)
+const Phone = new Item("Phone", "a very old but still functional Nokia 3210", "in pocket");
+const Wallet = new Item("Wallet", "dirty and half fallen apart", "in pocket")
 const Atm = new Item("ATM", "big gray box", "just outside the loo");
 const Tenner = new Item("Tenner", "folded in half", "on the floor");
 const ChocCake = new Item("Chocolate Cake", "rich cake made with a local breweries fruit beer", "in Sam Smiths hands");
@@ -64,6 +57,16 @@ Commonside.linkCharacter(ThorBridge);
 Commonside.linkCharacter(TimTaylor);
 Sung.linkCharacter(SamSmith);
 
+// Declare pockets and hand vairables with starting items
+// ** MAKE THESE INTO ITEMS ** Change functions to match this change ***
+let pockets = ["wallet", "phone"];
+let hands = [];
+
+// Declare bladder variable (range 0-100) Set starting value to 25
+let bladder = 25;
+// Declare hunger variable (range 0 -100) Set starting value to 50
+let hunger = 50;
+
 // Event Listener
 document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
@@ -78,6 +81,8 @@ document.addEventListener("keydown", function (event) {
         const peopleCommands = ["people", "person"];
         const convoCommands = charactersInRoom(currentRoom);
         const itemActions = itemsInRoom(currentRoom);
+        const phoneCommands = ["call", "help"];
+        const hangupCommands = ["hangup", "hang up", "close"];
 
 
         // Actions for move commands
@@ -153,6 +158,16 @@ document.addEventListener("keydown", function (event) {
             displayItemInfo(currentRoom, command);
             clearInput("user-text");
         }
+        // Use phone to call for help
+        else if (phoneCommands.includes(command)) {
+            help();
+            clearInput("user-text");
+        }
+        // Hangup phone call
+        else if (hangupCommands.includes(command)) {
+            hangup();
+            clearInput("user-text");
+        }
 
         else {
             clearInput("user-text");
@@ -171,6 +186,5 @@ let currentRoom = Commonside;
 startGame(currentRoom);
 
 // TEST ZONE
-
 
 
