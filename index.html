@@ -24,26 +24,26 @@
           <p id=room-text></p>
         </div>
         <div id="item-area" class="output-area col-sm">
-          <h5>Items</h5>
+          <h5 id="item-title"></h5>
           <p id="item-text"></p>
         </div>
       </div>
       <div class="row justify-content-md-center">
-        <div id="convo-area" class="output-area col-sm">
-          <h5>Conversation</h5>
-          <p id="convo-text"></p>
-        </div>
         <div id="inner-mono-area" class="output-area col-sm">
-          <h5>Inner Monologue</h5>
-          <p id="inner-text"></p>
+          <h5>Directions</h5>
+          <div id="dir-text"></div>
+        </div>
+        <div id="convo-area" class="output-area col-sm">
+          <h5 id="convo-title"></h5>
+          <p id="convo-text"></p>
         </div>
       </div>
       <div class="row justify-content-md-center">
         <div class="col-sm">
           <div id="input-area" class="text-center">
-            <p></p><label id="command-text" for="user-text">Command:</label>
+            <label id="command-text" for="user-text">Command:</label>
             <input id="user-text" type="text" />
-            All words in bold are valid commands</p>
+            <p>All words in italics are valid commands</p>
           </div>
         </div>
       </div>
