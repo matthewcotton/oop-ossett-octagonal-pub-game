@@ -13,13 +13,13 @@ const BeerGarden = new Room("Beer Garden", "four picnic benches on a wooden deck
 const BarberPlace = new Room("Barber Place", "a street full of parked cars and terraced houses");
 
 // Define items (instances of the class Room)
-const Phone = new Item("Phone", "a very old but still functional Nokia 3210", "in pocket");
-const Wallet = new Item("Wallet", "dirty and half fallen apart", "in pocket")
-const Atm = new Item("ATM", "big gray box", "just outside the loo");
-const Tenner = new Item("Tenner", "folded in half", "on the floor");
-const ChocCake = new Item("Chocolate Cake", "rich cake made with a local breweries fruit beer", "in Sam Smiths hands");
-const Landlord = new Beer("Landlord", "Timothy Taylor's", "pint", "The drinkers’ favourite, a classic pale ale with a complex citrus and hoppy aroma. A recent survey revealed that Landlord has the highest proportion of drinkers who call it their favourite ale.", "on the bar");
-const Jaipur = new Beer("Jaipur", "Thronbridge", "half pint", "This American style IPA has a complexity of flavours created by a six-dimensional hop experience. Jaipur's hoppiness builds in the mouth and bursts with powerful citrus fruit flavours, culminating in a remarkably smooth finish and making it a deliciously drinkable IPA.", "on a table");
+const Phone = new Item("Phone", "a very old but still functional Nokia 3210");
+const Wallet = new Item("Wallet", "dirty and half fallen apart")
+const Atm = new Item("ATM", "big gray box");
+const Tenner = new Item("Tenner", "folded in half");
+const ChocCake = new Item("Chocolate Cake", "rich cake made with a local breweries fruit beer");
+const Landlord = new Beer("Landlord", "Timothy Taylor's", "pint", "The drinkers’ favourite, a classic pale ale with a complex citrus and hoppy aroma. A recent survey revealed that Landlord has the highest proportion of drinkers who call it their favourite ale.");
+const Jaipur = new Beer("Jaipur", "Thronbridge", "half pint", "This American style IPA has a complexity of flavours created by a six-dimensional hop experience. Jaipur's hoppiness builds in the mouth and bursts with powerful citrus fruit flavours, culminating in a remarkably smooth finish and making it a deliciously drinkable IPA");
 
 // Define characters (instances of the class Character or subclasses)
 const TimTaylor = new Friend("Tim Taylor", "middle aged landlord", "he", "What 'ger want?");

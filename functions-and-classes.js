@@ -102,10 +102,9 @@ class Room {
 // Define Item class
 class Item {
 
-    constructor(name, description, position) {
+    constructor(name, description) {
         this._name = name;
         this._description = description;
-        this._position = position;
     }
     // Get _name function
     get name() {
@@ -115,10 +114,6 @@ class Item {
     get description() {
         return this._description;
     }
-    //Get _position
-    get position() {
-        return this._position;
-    }
     // Set _name function
     set name(newName) {
         this._name = newName;
@@ -127,14 +122,9 @@ class Item {
     set description(newDescription) {
         this._description = newDescription;
     }
-    // Set _position of the item
-    set position(newPosition) {
-        this._position = newPosition;
-    }
     // Function to output item description text
     describe() {
-        // ** Maybe update phrasing **
-        return "The " + this._name + " is on the " + this._position + " it looks " + this._description + ".";
+        return "The " + this._name + " is " + this._description + ".";
     }
 }
 
