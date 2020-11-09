@@ -58,9 +58,8 @@ Commonside.linkCharacter(TimTaylor);
 Sung.linkCharacter(SamSmith);
 
 // Declare pockets and hand vairables with starting items
-// ** MAKE THESE INTO ITEMS ** Change functions to match this change ***
-let pockets = ["wallet", "phone"];
-let hands = [];
+let pockets = [Wallet, Phone];
+let hands = [Jaipur];
 
 // Declare bladder variable (range 0-100) Set starting value to 25
 let bladder = 25;
@@ -76,12 +75,14 @@ document.addEventListener("keydown", function (event) {
         // Define valid command words
         const directions = ["north", "south", "east", "west"];
         const pocketCommands = ["pockets", "pocket"];
+        const pocketItems = itemsIn(pockets);
         const handCommands = ["hands", "hand"];
+        const handItems = itemsIn(hands);
         const itemCommands = ["items", "item", "room"];
+        const itemActions = itemsIn(currentRoom);
         const peopleCommands = ["people", "person"];
         const convoCommands = charactersInRoom(currentRoom);
-        const itemActions = itemsInRoom(currentRoom);
-        const phoneCommands = ["call", "help"];
+        const helpCommands = ["call", "help"];
         const hangupCommands = ["hangup", "hang up", "close"];
 
 
@@ -93,7 +94,6 @@ document.addEventListener("keydown", function (event) {
             displayDirections(currentRoom);
             displayItems(currentRoom);
             displayCharaters(currentRoom);
-            clearInput("user-text");
 
             // Declare a warning variable
             var warnings = [];
@@ -129,52 +129,51 @@ document.addEventListener("keydown", function (event) {
         else if (pocketCommands.includes(command)) {
 
             displayPockets();
-            clearInput("user-text");
         }
         // Actions for listing items in hands
         else if (handCommands.includes(command)) {
 
             displayHands();
-            clearInput("user-text");
         }
         // Actions for listing items in room
         else if (itemCommands.includes(command)) {
 
             displayItems(currentRoom);
-            clearInput("user-text");
         }
         // Actions for conversations with people
         else if (convoCommands.includes(command)) {
             displayConvo(currentRoom, command);
-            clearInput("user-text");
         }
         // Actions for listing people in the room
         else if (peopleCommands.includes(command)) {
             displayCharaters(currentRoom);
-            clearInput("user-text");
         }
         // Actions for items 
         else if (itemActions.includes(command)) {
             displayItemInfo(currentRoom, command);
-            clearInput("user-text");
         }
         // Use phone to call for help
-        else if (phoneCommands.includes(command)) {
+        else if (helpCommands.includes(command)) {
             help();
-            clearInput("user-text");
         }
         // Hangup phone call
         else if (hangupCommands.includes(command)) {
             hangup();
-            clearInput("user-text");
+        }
+        else if (pocketItems.includes(command)) {
+            displayItemInfo(pockets, command);
+        }
+        else if (handItems.includes(command)) {
+            displayItemInfo(hands, command);
         }
 
         else {
-            clearInput("user-text");
+
             alert("This is not a valid command.");
         }
 
-
+        // Clear input text field
+        clearInput("user-text");
     }
 });
 
@@ -186,5 +185,4 @@ let currentRoom = Commonside;
 startGame(currentRoom);
 
 // TEST ZONE
-
 

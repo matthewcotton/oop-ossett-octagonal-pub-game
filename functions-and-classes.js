@@ -1,3 +1,5 @@
+// ## CLASS DEFINITIONS ##
+
 // Define the class Room
 class Room {
 
@@ -344,6 +346,9 @@ class Beer extends Item {
     }
 }
 
+
+// ## DISPLAY FUNCTIONS ##
+
 // Function to display room within the text-area
 function displayRoom(room) {
     // Check room is an instance of class Room
@@ -356,28 +361,6 @@ function displayRoom(room) {
     else {
         alert(room.name + " is not a room");
     }
-}
-
-// Function to change value default range 0-100
-function countInRange(currentValue, changeValue, minRange, maxRange) {
-    // Set default range if not provided
-    if (typeof minRange === "undefined") {
-        minRange = 0;
-    }
-    if (typeof maxRange === "undefined") {
-        maxRange = 100;
-    }
-    // Change value 
-    let newValue = currentValue + changeValue
-    // Check newValue is within range
-    if (newValue < minRange) {
-        newValue = minRange;
-    }
-    else if (newValue > maxRange) {
-        newValue = maxRange;
-    }
-    // return result
-    return newValue;
 }
 
 // display directions function
@@ -454,10 +437,10 @@ function displayCharaters(room) {
 function displayPockets() {
 
     let itemText = "";
-
+    console.log(pockets);
     // Display items in pockets
     if (pockets.length > 0) {
-        pockets.forEach(el => itemText += "<p><i>" + el + "</i></p>");
+        pockets.forEach(el => itemText += "<p><i>" + el.name + "</i></p>");
     }
     // If pockets are empty
     else {
@@ -478,7 +461,7 @@ function displayHands() {
 
     // Display items in hands
     if (hands.length > 0) {
-        hands.forEach(el => itemText += "<p><i>" + el + "</i></p>");
+        hands.forEach(el => itemText += "<p><i>" + el.name + "</i></p>");
     }
     // If hands are empty
     else {
@@ -508,20 +491,36 @@ function displayConvo(room, name) {
     });
 }
 
-// display item information
-function displayItemInfo(room, itemName) {
-    // Display descriptive text of the item with provided name
-    room.linkedItems.forEach(item => {
-        if (item.name.toLowerCase() === itemName) {
-            // Display section title
-            document.getElementById("item-title").innerHTML = "Item Description";
-            // Display item text in item-text section
-            document.getElementById("item-text").innerHTML = item.describe();
-            // Focus on the command input box
-            document.getElementById("user-text").focus();
-            return
-        }
-    });
+// Display descriptive text of the item with provided name
+function displayItemInfo(input, itemName) {
+
+    // When input is a Room
+    if (input instanceof Room) {
+        input.linkedItems.forEach(item => {
+            if (item.name.toLowerCase() === itemName) {
+                // Display section title
+                document.getElementById("item-title").innerHTML = "Item Description";
+                // Display item text in item-text section
+                document.getElementById("item-text").innerHTML = item.describe();
+                // Focus on the command input box
+                document.getElementById("user-text").focus();
+                return
+            }
+        });
+    }
+    else if (Array.isArray(input)) {
+        input.forEach(item => {
+            if (item.name.toLowerCase() === itemName) {
+                // Display section title
+                document.getElementById("item-title").innerHTML = "Item Description";
+                // Display item text in item-text section
+                document.getElementById("item-text").innerHTML = item.describe();
+                // Focus on the command input box
+                document.getElementById("user-text").focus();
+                return
+            }
+        });
+    }
 }
 
 // display thoughts 
@@ -587,7 +586,7 @@ function incomingCall() {
     text += "<p>Dionysus: Hello! I'm just having a pint at the Museum!</p>";
     text += "<p>You: Are you enjoying it?</p>";
     text += "<p>Dionysus: Nah, it's rubbish! It's total rubbish! How are you?</p>";
-    text += "<p>You: I'm not sure what is going on to be honest.</p>"; 
+    text += "<p>You: I'm not sure what is going on to be honest.</p>";
     text += "<p>Dionysus: Oh no. Here are a few tips for you then."
     text += "<br>All words shown in <i>italics</i> are valid commands. Try them out to see what happens.";
     text += "<br>Use commands <i>north, east, south</i> and <i>west</i> to navigate between rooms.";
@@ -609,6 +608,17 @@ function hangup() {
     hide("phone-area");
 }
 
+
+// ## INTERACTION FUNCTIONS ##
+
+// Fight sequence
+function fightSequence(character, item) {
+
+}
+
+
+// ## BASIC FUNCTIONS ##
+
 // Function for hiding the element with provided id
 function hide(...id) {
 
@@ -619,15 +629,10 @@ function hide(...id) {
 
 // function for showing the element with provided id
 function show(...id) {
-    
+
     id.forEach(el => {
         document.getElementById(el).style.display = "block";
     });
-}
-
-// Fight sequence
-function fightSequence(character, item) {
-
 }
 
 // Clear input function
@@ -644,14 +649,48 @@ function charactersInRoom(room) {
     return list;
 }
 
-// Function to add items in the current room to an array
-function itemsInRoom(room) {
+// List items in room, or an array
+function itemsIn(input) {
     let list = [];
-    room.linkedItems.forEach(item => {
-        list.push(item.name.toLowerCase());
-    });
+
+    // When a Room is provided
+    if (input instanceof Room) {
+        input.linkedItems.forEach(item => {
+            list.push(item.name.toLowerCase());
+        });
+    }
+    else if (Array.isArray(input)) {
+        input.forEach(item => {
+            list.push(item.name.toLowerCase());
+        });
+    }
     return list;
 }
+
+// Function to change value default range 0-100
+function countInRange(currentValue, changeValue, minRange, maxRange) {
+    // Set default range if not provided
+    if (typeof minRange === "undefined") {
+        minRange = 0;
+    }
+    if (typeof maxRange === "undefined") {
+        maxRange = 100;
+    }
+    // Change value 
+    let newValue = currentValue + changeValue
+    // Check newValue is within range
+    if (newValue < minRange) {
+        newValue = minRange;
+    }
+    else if (newValue > maxRange) {
+        newValue = maxRange;
+    }
+    // return result
+    return newValue;
+}
+
+
+// ## START AND END GAME FUNCTIONS ##
 
 // Function to start the game in the Grand Enterance Hall
 function startGame(currentRoom) {
