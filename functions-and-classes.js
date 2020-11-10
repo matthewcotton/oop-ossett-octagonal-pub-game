@@ -451,17 +451,20 @@ function displayItems(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
 
-        let itemText = "";
+        let text = "";
 
         // Cycle through each linked item to build html text
         Object.keys(room.linkedItems).forEach(key => {
-            itemText += "<p><i>" + room.linkedItems[key].name + "</i></p>";
+            text += "<p><i>" + room.linkedItems[key].name + "</i></p>";
         });
+
+        // Add pickup command info
+        text += "<p>To take an item use command <i>pickup</i> + item name + <i>pockets</i> or <i>hands</i>.</p>";
 
         // Display section title
         document.getElementById("item-title").innerHTML = "<i>Items</i> In Room";
         // Display item text in item-text section
-        document.getElementById("item-text").innerHTML = itemText;
+        document.getElementById("item-text").innerHTML = text;
         // Focus on the command input box
         document.getElementById("user-text").focus();
     }
@@ -656,33 +659,35 @@ function displayAftermath(item, character) {
 // Display descriptive text of the item with provided name
 function displayItemInfo(input, itemName) {
 
+    var text = "<p>";
+
     // When input is a Room
     if (input instanceof Room) {
         input.linkedItems.forEach(item => {
             if (item.name.toLowerCase() === itemName) {
-                // Display section title
-                document.getElementById("item-title").innerHTML = "Item Description";
-                // Display item text in item-text section
-                document.getElementById("item-text").innerHTML = item.describe();
-                // Focus on the command input box
-                document.getElementById("user-text").focus();
-                return
+                text += item.describe();
             }
         });
     }
     else if (Array.isArray(input)) {
         input.forEach(item => {
             if (item.name.toLowerCase() === itemName) {
-                // Display section title
-                document.getElementById("item-title").innerHTML = "Item Description";
-                // Display item text in item-text section
-                document.getElementById("item-text").innerHTML = item.describe();
-                // Focus on the command input box
-                document.getElementById("user-text").focus();
-                return
+                text += item.describe();
             }
         });
     }
+
+    text += "</p>";
+
+    // Add pickup command info
+    text += "<p>To take an item use command <i>pickup</i> + item name + <i>pockets</i> or <i>hands</i>.</p>";
+
+    // Display section title
+    document.getElementById("item-title").innerHTML = "Item Description";
+    // Display item text in item-text section
+    document.getElementById("item-text").innerHTML = text;
+    // Focus on the command input box
+    document.getElementById("user-text").focus();
 }
 
 // display thoughts 
@@ -856,6 +861,14 @@ function itemsIn(input) {
         // Add items from pockets
         pockets.forEach(item => {
             list.push("fight " + item.name.toLowerCase());
+        });
+    }
+
+    // When input is take item
+    else if (input === "take item") {
+
+        input.linkedItems.forEach(item => {
+            list.push(item.name.toLowerCase());
         });
     }
 

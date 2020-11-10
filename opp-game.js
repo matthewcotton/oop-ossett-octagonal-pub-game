@@ -18,7 +18,7 @@ const Wallet = new Item("Wallet", "dirty and half fallen apart. It contains £0.
 const Atm = new Item("ATM", "big gray box");
 const Tenner = new Item("Tenner", "folded in half");
 const ChocCake = new Item("Chocolate Cake", "rich cake made with a local breweries fruit beer");
-const Landlord = new Beer("Landlord", "Timothy Taylor's", "pint", "The drinkers’ favourite, a classic pale ale with a complex citrus and hoppy aroma. A recent survey revealed that Landlord has the highest proportion of drinkers who call it their favourite ale.");
+const Landlord = new Beer("Landlord", "Timothy Taylor's", "pint", "The drinkers’ favourite, a classic pale ale with a complex citrus and hoppy aroma. A recent survey revealed that Landlord has the highest proportion of drinkers who call it their favourite ale");
 const Jaipur = new Beer("Jaipur", "Thronbridge", "half pint", "This American style IPA has a complexity of flavours created by a six-dimensional hop experience. Jaipur's hoppiness builds in the mouth and bursts with powerful citrus fruit flavours, culminating in a remarkably smooth finish and making it a deliciously drinkable IPA");
 
 // Define characters (instances of the class Character or subclasses)
@@ -100,6 +100,7 @@ document.addEventListener("keydown", function (event) {
         const givePintCommands = itemsIn("beer in hands");
         const helpCommands = ["call", "help"];
         const hangupCommands = ["hangup", "hang up", "close"];
+        const pickupCommands = itemsIn("take item");
 
         // Actions for move commands
         if (directions.includes(command)) {
