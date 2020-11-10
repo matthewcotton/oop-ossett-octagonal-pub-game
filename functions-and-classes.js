@@ -278,15 +278,15 @@ class Enemy extends Character {
         // When item is give as text 
         else {
             // Try to find the item in pockets
-            pockets.forEach(thing => {
-                if (thing.name.toLowerCase() === item) {
-                    item = thing;
+            pockets.forEach(el => {
+                if (el.name.toLowerCase() === item) {
+                    item = el;
                 }
             });
             // Try to find the item in hands
-            hands.forEach(thing => {
-                if (thing.name.toLowerCase() === item) {
-                    item = thing;
+            hands.forEach(el => {
+                if (el.name.toLowerCase() === item) {
+                    item = el;
                 }
             });
         }
@@ -372,8 +372,8 @@ class Friend extends Character {
 // Define subclass Pint
 class Beer extends Item {
 
-    constructor(name, brand, size, description, position) {
-        super(name, description, position);
+    constructor(name, brand, size, description) {
+        super(name, description);
         this._brand = brand;
         // Only allow pint or half pint
         if (size.toLowerCase() === "pint" || size.toLowerCase() === "half pint") {
@@ -407,11 +407,32 @@ class Beer extends Item {
     }
 }
 
+// Define subclass Food
+class Food extends Item {
+
+    constructor(name, value, description) {
+        super(name, description);
+        this._value = value; // Nutritional value of this food item
+    }
+    // Get value
+    get value() {
+        return this._value;
+    }
+    // Set value
+    set value(newValue) {
+        this._value = newValue;
+    }
+}
+
 
 // ## DISPLAY FUNCTIONS ##
 
 // Function to display room within the text-area
 function displayRoom(room) {
+
+    // Close phone call window
+    hangup();
+
     // Check room is an instance of class Room
     if (room instanceof Room) {
         // Display room description in room-text section
@@ -429,15 +450,17 @@ function displayDirections(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
 
-        let directionText = "";
+        let text = "<p>";
 
         // Cycle through each linked room to build html text
         Object.keys(room.linkedRooms).forEach(key => {
-            directionText += "<p><i>" + key + "</i>: " + room.linkedRooms[key].name + "</p>";
+            text += "<i>" + key + "</i>: " + room.linkedRooms[key].name + "<br>";
         });
 
+        text += "</p>";
+
         // Display direction text in dir-text section
-        document.getElementById("dir-text").innerHTML = directionText;
+        document.getElementById("dir-text").innerHTML = text;
         // Focus on the command input box
         document.getElementById("user-text").focus();
     }
@@ -453,13 +476,18 @@ function displayItems(room) {
 
         let text = "";
 
-        // Cycle through each linked item to build html text
-        Object.keys(room.linkedItems).forEach(key => {
-            text += "<p><i>" + room.linkedItems[key].name + "</i></p>";
-        });
+        if (room.linkedItems.length > 0) {
+            // Cycle through each linked item to build html text
+            Object.keys(room.linkedItems).forEach(key => {
+                text += "<p><i>" + room.linkedItems[key].name + "</i></p>";
+            });
+        }
+        else {
+            text += "<p>empty</p>";
+        }
 
         // Add pickup command info
-        text += "<p>To take an item use command <i>pickup</i> + item name + <i>pockets</i> or <i>hands</i>.</p>";
+        text += "<p>To take an item from the room use command <i>pickup</i> + item name + <i>pockets</i> or <i>hands</i>.</p>";
 
         // Display section title
         document.getElementById("item-title").innerHTML = "<i>Items</i> In Room";
@@ -680,7 +708,7 @@ function displayItemInfo(input, itemName) {
     text += "</p>";
 
     // Add pickup command info
-    text += "<p>To take an item use command <i>pickup</i> + item name + <i>pockets</i> or <i>hands</i>.</p>";
+    text += "<p>To pickup an item from the room use command <i>pickup</i> + item name + <i>pockets</i> or <i>hands</i>.</p>";
 
     // Display section title
     document.getElementById("item-title").innerHTML = "Item Description";
@@ -699,9 +727,17 @@ function displayThoughts(...type) {
     if (type[0].includes("bladder")) {
         text += "<p>I need a wee! Bladder is " + bladder + "% full</p>";
     }
+    // Empty bladder 
+    if (type[0].includes("bladder-empty")) {
+        text += "<p>Ahhhh. Thats a relief. Bladder is empty.";
+    }
     // Hunger warning
     if (type[0].includes("hunger")) {
-        text += "<p><b>rumble rumble</b> I'm hungry. Stomach is " + hunger + "% full</p>";
+        text += "<p><b>rumble rumble</b> I'm hungry.<br>Stomach is " + hunger + "% full</p>";
+    }
+    // Eating food
+    if (type[0].includes("eating")) {
+        text += "<p>Wow. That was some good food!<br>Stomach is " + hunger + "% full</p>";
     }
     // Display text in thoughts text div
     document.getElementById("thoughts-text").innerHTML = text;
@@ -775,13 +811,6 @@ function hangup() {
     hide("phone-area");
 }
 
-
-// ## INTERACTION FUNCTIONS ##
-
-// Fight sequence
-function fightSequence(character, item) {
-
-}
 
 
 // ## BASIC FUNCTIONS ##
@@ -867,8 +896,25 @@ function itemsIn(input) {
     // When input is take item
     else if (input === "take item") {
 
-        input.linkedItems.forEach(item => {
-            list.push(item.name.toLowerCase());
+        // Add pickup + item name + pockets to list
+        currentRoom.linkedItems.forEach(item => {
+            list.push("pickup " + item.name.toLowerCase() + " pockets");
+        });
+
+        // Add pickup + item name + hands to list
+        currentRoom.linkedItems.forEach(item => {
+            list.push("pickup " + item.name.toLowerCase() + " hands");
+        });
+    }
+
+    // When input is of Class Food
+    else if (input === "food") {
+
+        // Get the Food items in the current room
+        currentRoom.linkedItems.forEach(item => {
+            if (item instanceof Food) {
+                list.push(item.name.toLowerCase());
+            }
         });
     }
 
@@ -879,28 +925,28 @@ function itemsIn(input) {
 function fightItem(item) {
 
     // Try to find the item in pockets
-    pockets.forEach(thing => {
-        if (thing.name.toLowerCase() === item) {
-            item = thing;
+    pockets.forEach(el => {
+        if (el.name.toLowerCase() === item) {
+            item = el;
         }
     });
     // Try to find the item in hands
-    hands.forEach(thing => {
-        if (thing.name.toLowerCase() === item) {
-            item = thing;
+    hands.forEach(el => {
+        if (el.name.toLowerCase() === item) {
+            item = el;
         }
     });
-    
+
     // Single use fight items are Beers
     if (item instanceof Beer) {
 
         // Remove item from pockets
-        pockets = pockets.filter(thing => {
-            return thing != item;
+        pockets = pockets.filter(el => {
+            return el != item;
         });
         // Remove item from hands
-        hands = hands.filter(thing => {
-            return thing != item;
+        hands = hands.filter(el => {
+            return el != item;
         });
     }
 }
@@ -927,7 +973,6 @@ function countInRange(currentValue, changeValue, minRange, maxRange) {
     return newValue;
 }
 
-
 // Update cash in wallet
 function updateCash(value, change) {
     // Update cash variable
@@ -937,6 +982,37 @@ function updateCash(value, change) {
     Wallet.description = newDescription;
     // return the new cash value
     return value;
+}
+
+// Find an item (string) in location
+function findIn(item, location) {
+
+    // Try to find item in room 
+    if (location instanceof Room) {
+        location.linkedItems.forEach(el => {
+            if (el.name.toLowerCase() === item) {
+                item = el;
+            }
+        })
+    }
+    // Try to find the item in pockets
+    else if (location === "pockets") {
+        pockets.forEach(el => {
+            if (el.name.toLowerCase() === item) {
+                item = el;
+            }
+        });
+    }
+    // Try to find the item in hands
+    else if (location === "hands") {
+        hands.forEach(el => {
+            if (el.name.toLowerCase() === item) {
+                item = el;
+            }
+        });
+    }
+
+    return item;
 }
 
 /* THIS FUNCTION WILL NOT ACTUALLY DELETE VARIABLES
