@@ -95,7 +95,7 @@ document.addEventListener("keydown", function (event) {
         const characterSelectCommands = charactersInRoom(currentRoom);
         const chatCommands = ["chat", "talk"];
         const strengthCommands = ["strength", "see strength"];
-        const fightCommands = ["fight"];
+        const fightCommands = itemsIn("fight");
         const weaknessCommands = ["weaknesses", "weakness", "see weaknesses", "see weakness"];
         const givePintCommands = itemsIn("beer in hands");
         const helpCommands = ["call", "help"];
@@ -196,22 +196,39 @@ document.addEventListener("keydown", function (event) {
         }
         // Actions for fighting a character
         else if (fightCommands.includes(command)) {
-            // ADD FUNCTIONALITY
+            // When activeCharacter is defined
+            if (activeCharacter != "") {
+                // Fight character after spliting command string (as command includes the first word 'fight')
+                var item = command.split(" ");
+                item = item[1];
+                activeCharacter.fight(item);
+
+                // Display cheers message
+                displayAftermath(item, activeCharacter);
+
+                // Remove single use items from hands or pockets
+                fightItem(item);
+            }
+            // When activeCharacter is not defined
+            else {
+                alert("A character has not been selected. Please select a character");
+            }
         }
         // Actions for giving a pint
         else if (givePintCommands.includes(command)) {
             // When activeCharacter is defined
             if (activeCharacter != "") {
-                // Give pint to character after spliting command string (as command includes the forst word give)
+                // Give pint to character after spliting command string (as command includes the first word 'give')
                 var drink = command.split(" ");
-                activeCharacter.givePint(drink[1]);
-            
+                drink = drink[1];
+                activeCharacter.givePint(drink);
+
                 // Display cheers message
-                displayCheers(drink[1], activeCharacter);
+                displayCheers(drink, activeCharacter);
 
                 // Remove pint from hands
                 hands = hands.filter(item => {
-                    return item.name.toLowerCase() != drink[1]
+                    return item.name.toLowerCase() != drink;
                 });
             }
             // When activeCharacter is not defined
@@ -265,4 +282,3 @@ let currentRoom = Commonside;
 startGame(currentRoom);
 
 // TEST ZONE
-delete Jaipur.name;

@@ -260,18 +260,57 @@ class Enemy extends Character {
     }
     // Fight function. Returns strength of enemy
     fight(item) {
-        // Attack with weakness item results in -5 from strength
-        if (this._weakness.includes(item)) {
-            var weaknessAttackPoints = -5;
-            this.changeStrength(weaknessAttackPoints);
+
+        // Check if item is of Class Item
+        if (item instanceof Item) {
+            // Attack with weakness item results in -5 from strength
+            if (this._weakness.includes(item)) {
+                var weaknessAttackPoints = -5;
+                this.changeStrength(weaknessAttackPoints);
+            }
+            // Attack from any other item results in -1 from strength
+            else {
+                var normaAttackPoints = -1;
+                this.changeStrength(normaAttackPoints);
+            }
         }
-        // Attack from any other item results in -1 from strength
+
+        // When item is give as text 
         else {
-            var normaAttackPoints = -1;
-            this.changeStrength(normaAttackPoints);
+            // Try to find the item in pockets
+            pockets.forEach(thing => {
+                if (thing.name.toLowerCase() === item) {
+                    item = thing;
+                }
+            });
+            // Try to find the item in hands
+            hands.forEach(thing => {
+                if (thing.name.toLowerCase() === item) {
+                    item = thing;
+                }
+            });
         }
-        // Return new strength
-        return this._strength;
+
+        // Run the same chack and clacs as above 
+        if (item instanceof Item) {
+            // Attack with weakness item results in -5 from strength
+            if (this._weakness.includes(item)) {
+                var weaknessAttackPoints = -5;
+                this.changeStrength(weaknessAttackPoints);
+            }
+            // Attack from any other item results in -1 from strength
+            else {
+                var normaAttackPoints = -1;
+                this.changeStrength(normaAttackPoints);
+            }
+        }
+
+        // When the item can't be found
+        else {
+            alert(item + " can not be found.");
+        }
+
+
     }
 }
 
@@ -283,6 +322,7 @@ class Friend extends Character {
     }
     // Function to give this character a pint and changes strength acordingly
     givePint(drink) {
+
         // Check item is a Beer
         if (drink instanceof Beer) {
             // When a character is given a pint their strength increases by +2
@@ -323,7 +363,7 @@ class Friend extends Character {
 
             // When the drink provided can't be found
             else {
-            alert(drink.name + " is not a beer");
+                alert(drink + " can not be found.");
             }
         }
     }
@@ -514,7 +554,7 @@ function displayInteraction(room, name) {
 
     // For characters of Class Enemy
     if (character instanceof Enemy) {
-        text += "<br><i>fight</i>";
+        text += "<br><i>fight</i> + name of an item in your hands or pockets";
         text += "<br>see <i>weaknesses</i>";
     }
     // For characters of Class Friend
@@ -584,6 +624,29 @@ function displayCheers(drink, character) {
 
     // Display section title
     document.getElementById("convo-title").innerHTML = "Gave Pint";
+    // Display item text in item-text section
+    document.getElementById("convo-text").innerHTML = text;
+    // Focus on the command input box
+    document.getElementById("user-text").focus();
+}
+
+// Display the aftermath of a fight
+function displayAftermath(item, character) {
+
+    var text = "<p>You hit " + character.name + " with a " + item + ".</p>"
+
+    // When the characters strength is greater than zero
+    if (character.strength === 0) {
+        text += "<p>" + character.name + " passed out.</p>";
+        text += "<p>You're one step closer to winning this thing.</p>";
+    }
+    else {
+        text += "<p>" + character.name + "'s strength decreased to " + character.strength + " / 10</p>";
+        text += "<p>Continue fighting using the command <i>fight</i> + an item in your hands or pockets.</p>";
+    }
+
+    // Display section title
+    document.getElementById("convo-title").innerHTML = "<i>Fight</i>";
     // Display item text in item-text section
     document.getElementById("convo-text").innerHTML = text;
     // Focus on the command input box
@@ -758,6 +821,7 @@ function itemsIn(input) {
 
     // When a Room is provided
     if (input instanceof Room) {
+
         input.linkedItems.forEach(item => {
             list.push(item.name.toLowerCase());
         });
@@ -765,20 +829,67 @@ function itemsIn(input) {
 
     // When input is an array (used for pockets and hands)
     else if (Array.isArray(input)) {
+
         input.forEach(item => {
             list.push(item.name.toLowerCase());
         });
     }
 
-    // When input is a Beer
+    // When input is a beer
     else if (input === "beer in hands") {
+
         hands.forEach(item => {
             if (item instanceof Beer) {
                 list.push("give " + item.name.toLowerCase());
             }
         });
     }
+
+    // When input is fight
+    else if (input === "fight") {
+
+        // Add items from hands
+        hands.forEach(item => {
+            list.push("fight " + item.name.toLowerCase());
+        });
+
+        // Add items from pockets
+        pockets.forEach(item => {
+            list.push("fight " + item.name.toLowerCase());
+        });
+    }
+
     return list;
+}
+
+// Remove signle use items from hands and pockets after a fight
+function fightItem(item) {
+
+    // Try to find the item in pockets
+    pockets.forEach(thing => {
+        if (thing.name.toLowerCase() === item) {
+            item = thing;
+        }
+    });
+    // Try to find the item in hands
+    hands.forEach(thing => {
+        if (thing.name.toLowerCase() === item) {
+            item = thing;
+        }
+    });
+    
+    // Single use fight items are Beers
+    if (item instanceof Beer) {
+
+        // Remove item from pockets
+        pockets = pockets.filter(thing => {
+            return thing != item;
+        });
+        // Remove item from hands
+        hands = hands.filter(thing => {
+            return thing != item;
+        });
+    }
 }
 
 // Function to change value default range 0-100
