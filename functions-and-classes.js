@@ -535,11 +535,9 @@ class Food extends Item {
 /**
  *  Displays description of the provided Room
  * 
- * @param {Room} room 
+ * @param {Room} room Room to display
  */
-// Function to display room within the text-area
 function displayRoom(room) {
-
     // Close phone call window
     hangup();
 
@@ -555,18 +553,21 @@ function displayRoom(room) {
     }
 }
 
-// display directions function
+/**
+ * Displays directions to linked Rooms from current Room
+ * 
+ * @param {Room} room Room to display directions of
+ */
 function displayDirections(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
 
-        let text = "<p>";
-
         // Cycle through each linked room to build html text
+        let text = "<p>";
         Object.keys(room.linkedRooms).forEach(key => {
             text += "<i>" + key + "</i>: " + room.linkedRooms[key].name + "<br>";
         });
-
+        
         text += "</p>";
 
         // Display direction text in dir-text section
@@ -579,13 +580,16 @@ function displayDirections(room) {
     }
 }
 
-// display items
+/**
+ * Displays Items in current Room
+ * 
+ * @param {Room} room Room to display items in
+ */
 function displayItems(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
 
         let text = "";
-
         if (room.linkedItems.length > 0) {
             // Cycle through each linked item to build html text
             Object.keys(room.linkedItems).forEach(key => {
@@ -611,13 +615,16 @@ function displayItems(room) {
     }
 }
 
-// display characters in conversation section
+/**
+ * Displays Characters in current Room
+ * 
+ * @param {Room} room Room to display Characters in
+ */
 function displayCharaters(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
 
         let characterText = "";
-
         // Cycle through each linked character to build html text
         Object.keys(room.linkedCharacters).forEach(key => {
             characterText += "<p><i>" + room.linkedCharacters[key].name + "</i></p>";
@@ -635,7 +642,9 @@ function displayCharaters(room) {
     }
 }
 
-// Display pockets
+/**
+ * Displays Items in pockets array
+ */
 function displayPockets() {
 
     let itemText = "";
@@ -656,7 +665,9 @@ function displayPockets() {
     document.getElementById("user-text").focus();
 }
 
-// Display hands
+/**
+ * Displays Items in hands array
+ */
 function displayHands() {
 
     let itemText = "";
