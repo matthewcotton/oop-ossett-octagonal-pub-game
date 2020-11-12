@@ -1206,7 +1206,7 @@ function gameOver(...type) {
 function win() {
 
     let text = "<h2>YOU WON!!!</h2>";
-    text += "<p>You managed to beat all enemies and the big boss while keeping the drink flowing for your friends. Well done.</p>";
+    text += "<p>You managed to beat enemies and the big boss while keeping the drink flowing for your friends. Well done.</p>";
 
     // Display game over text
     let gameArea = document.getElementById("game-area");
