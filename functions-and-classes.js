@@ -2,7 +2,10 @@
 
 // Define the class Room
 class Room {
-
+    /**
+     * @param {string} name name of the room
+     * @param {string} description description of the room
+     */
     constructor(name, description) {
         this._name = name;
         this._description = description;
@@ -38,12 +41,20 @@ class Room {
     set description(newDescription) {
         this._description = newDescription;
     }
-    // Function to output room description text about what can be seen in the room
+    /**
+     * Describes this room
+     * 
+     * @returns {string} describing this Room
+     */
     describe() {
-        // ** Maybe update phrasing **
         return "You enter the " + this._name + " and see " + this._description + ".";
     }
-    // Function to add a linked room
+    /**
+     * Adds a Room to the _linkedRooms array
+     * 
+     * @param {string} direction north, east, south or west
+     * @param {Room} roomToLink a Room
+     */
     linkRoom(direction, roomToLink) {
         // Check the provided argument is of the correct class 
         if (roomToLink instanceof Room) {
@@ -53,7 +64,11 @@ class Room {
             alert(roomToLink.name + " is not a room");
         }
     }
-    // Function to add a linked item
+    /**
+     * Adds an Item to the _linkedItems array
+     * 
+     * @param {Item} itemToLink an Item
+     */
     linkItem(itemToLink) {
         // Check the provided argument is of the correct class 
         if (itemToLink instanceof Item) {
@@ -63,7 +78,11 @@ class Room {
             alert(itemToLink.name + " is not an item");
         }
     }
-    // Function to add a linked character
+    /**
+     * Adds a Character to the _linkedCharacters array
+     * 
+     * @param {Character} characterToLink a Character
+     */
     linkCharacter(characterToLink) {
         // Check the provided argument is of the correct class 
         if (characterToLink instanceof Character) {
@@ -73,21 +92,33 @@ class Room {
             alert(characterToLink.name + " is not an item");
         }
     }
-    // Function to remove a linked item
+    /**
+     * Remove an Item from the _linkedItems array
+     * 
+     * @param {Item} itemToUnlink a linked Item
+     */
     unlinkItem(itemToUnlink) {
         // Filter to remove the item to be unlinked from the array
         this._linkedItems = this._linkedItems.filter(el => {
             return el != itemToUnlink;
         });
     }
-    // Function to remove a linked character
+    /**
+     * Remove a Character from the _linkedCharacters array
+     * 
+     * @param {Character} characterToUnlink a linked Character
+     */
     unlinkCharacter(characterToUnlink) {
         // Filter to remove the item to be unlinked from the array
         this._linkedCharacters = this._linkedCharacters.filter(el => {
             return el != characterToUnlink;
         });
     }
-    // Function to move between rooms
+    /**
+     * Return a Room that is linked to this Room in the provided direction
+     * 
+     * @param {string} direction north, east, south or west
+     */
     move(direction) {
         if (direction in this._linkedRooms) {
             return this._linkedRooms[direction];
@@ -101,7 +132,10 @@ class Room {
 
 // Define Item class
 class Item {
-
+    /**
+     * @param {string} name  name of the item
+     * @param {string} description description of the item
+     */
     constructor(name, description) {
         this._name = name;
         this._description = description;
@@ -122,7 +156,11 @@ class Item {
     set description(newDescription) {
         this._description = newDescription;
     }
-    // Function to output item description text
+    /**
+     * Returns a description of this Item
+     * 
+     * @returns {string} description of this item
+     */
     describe() {
         return "The " + this._name + " is " + this._description + ".";
     }
@@ -130,7 +168,12 @@ class Item {
 
 // Define Character class
 class Character {
-
+    /**
+     * @param {string} name name of the character
+     * @param {string} description description of the character
+     * @param {string} pronoun he, she, they etc
+     * @param {string} conversation speech of the character
+     */
     constructor(name, description, pronoun, conversation) {
         this._name = name;
         this._description = description;
@@ -183,7 +226,12 @@ class Character {
     set strength(newStrength) {
         this._strength = newStrength;
     }
-    // Set _strength
+    /**
+     * Change _strength for this Character 
+     * Range 0 to 10
+     * 
+     * @param {number} strengthChange increase/decrease value
+     */
     changeStrength(strengthChange) {
         // If strengh is zero it can NOT be changed
         if (this._strength === 0) {
@@ -199,15 +247,28 @@ class Character {
             this._strength = 10;
         }
     }
+    /**
+     * Returns a description of this Character
+     * 
+     * @returns {string} description of this character
+     */
     describe() {
         // ** Maybe update phrasing **
         return this._name + " is " + this._description + ".";
     }
-    // Function to output item description text
+    /**
+     * Returns the conversation of this Character
+     * 
+     * @returns {string} conversation text
+     */
     talk() {
         return this._conversation;
     }
-    // Function to add a linked item
+    /**
+     * Adds an Item to _linkedItems array
+     * 
+     * @param {Item} itemToLink an Item
+     */
     linkItem(itemToLink) {
         // Check the provided argument is of the correct class 
         if (itemToLink instanceof Item) {
@@ -217,7 +278,11 @@ class Character {
             alert(itemToLink.name + " is not an item");
         }
     }
-    // Function to remove a linked item
+    /**
+     * Removes an Item from the _linkedItems array
+     * 
+     * @param {Item} itemToUnlink a linked Item
+     */
     unlinkItem(itemToUnlink) {
         // Filter to remove the item to be unlinked from the array
         this._linkedItems = this._linkedItems.filter(el => {
@@ -228,7 +293,13 @@ class Character {
 
 // Define subclass Enemy
 class Enemy extends Character {
-
+    /**
+     * @param {string} name name of this character
+     * @param {string} description description of this character
+     * @param {string} pronoun he, she, they etc
+     * @param {string} conversation speech of this character
+     * @param {Item} weakness weakness(es) of this character
+     */
     constructor(name, description, pronoun, conversation, weakness) {
         super(name, description, pronoun, conversation);
         this._weakness = [];
@@ -241,7 +312,11 @@ class Enemy extends Character {
     get weakness() {
         return this._weakness;
     }
-    // Add weakness function
+    /**
+     * Adds an Item to the _weakness array
+     * 
+     * @param {Item} newWeakness an Item
+     */
     addWeakness(newWeakness) {
         // Check the provided argument is of the correct class 
         if (newWeakness instanceof Item) {
@@ -251,14 +326,24 @@ class Enemy extends Character {
             alert(newWeakness.name + " is not an item");
         }
     }
-    // Remove weakness function 
+    /**
+     * Removes an Item from the _weakness array
+     * 
+     * @param {Item} itemToRemove an Item
+     */
     removeWeakness(itemToRemove) {
         // Filter to remove the item to be unlinked from the array
         this._weakness = this._weakness.filter(el => {
             return el != itemToRemove;
         });
     }
-    // Fight function. Returns strength of enemy
+    /** REFACTOR
+     * Updates this Character's _strength based on the Item attacked with
+     * -5 for Item in _weakness array
+     * -1 for any other Item
+     * 
+     * @param {*} item Item or string of items name
+     */
     fight(item) {
 
         // Check if item is of Class Item
@@ -316,11 +401,22 @@ class Enemy extends Character {
 
 // Define subclass Friend
 class Friend extends Character {
-
+    /**
+     * @param {string} name name of this character
+     * @param {string} description description of this character
+     * @param {string} pronoun he, she, they etc
+     * @param {string} conversation speech of this character
+     */
     constructor(name, description, pronoun, conversation) {
         super(name, description, pronoun, conversation);
     }
-    // Function to give this character a pint and changes strength acordingly
+    /** REFACTOR
+     * Updates this Character's _strength based on size of Beer
+     * +1 for half pint
+     * +2 for pint
+     * 
+     * @param {*} drink Beer or beers name
+     */
     givePint(drink) {
 
         // Check item is a Beer
@@ -371,7 +467,12 @@ class Friend extends Character {
 
 // Define subclass Pint
 class Beer extends Item {
-
+    /**
+     * @param {string} name name of this beer
+     * @param {string} brand brand of this beer
+     * @param {string} size 'pint' or 'half pint'
+     * @param {string} description description of this beer
+     */
     constructor(name, brand, size, description) {
         super(name, description);
         this._brand = brand;
@@ -409,10 +510,14 @@ class Beer extends Item {
 
 // Define subclass Food
 class Food extends Item {
-
+    /**
+     * @param {string} name name of this food
+     * @param {number} value nutritional value
+     * @param {string} description description of this food
+     */
     constructor(name, value, description) {
         super(name, description);
-        this._value = value; // Nutritional value of this food item
+        this._value = value;
     }
     // Get value
     get value() {
@@ -424,12 +529,14 @@ class Food extends Item {
     }
 }
 
-
 // ## DISPLAY FUNCTIONS ##
 
-// Function to display room within the text-area
+/**
+ *  Displays description of the provided Room
+ * 
+ * @param {Room} room Room to display
+ */
 function displayRoom(room) {
-
     // Close phone call window
     hangup();
 
@@ -444,19 +551,21 @@ function displayRoom(room) {
         alert(room.name + " is not a room");
     }
 }
-
-// display directions function
+/**
+ * Displays directions to linked Rooms from current Room
+ * 
+ * @param {Room} room Room to display directions of
+ */
 function displayDirections(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
 
-        let text = "<p>";
-
         // Cycle through each linked room to build html text
+        let text = "<p>";
         Object.keys(room.linkedRooms).forEach(key => {
             text += "<i>" + key + "</i>: " + room.linkedRooms[key].name + "<br>";
         });
-
+        
         text += "</p>";
 
         // Display direction text in dir-text section
@@ -468,14 +577,16 @@ function displayDirections(room) {
         alert(room.name + " is not a room");
     }
 }
-
-// display items
+/**
+ * Displays Items in current Room
+ * 
+ * @param {Room} room Room to display items in
+ */
 function displayItems(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
 
         let text = "";
-
         if (room.linkedItems.length > 0) {
             // Cycle through each linked item to build html text
             Object.keys(room.linkedItems).forEach(key => {
@@ -500,14 +611,16 @@ function displayItems(room) {
         alert(room.name + " is not a room");
     }
 }
-
-// display characters in conversation section
+/**
+ * Displays Characters in current Room
+ * 
+ * @param {Room} room Room to display Characters in
+ */
 function displayCharaters(room) {
     // Check room is an instance of class Room
     if (room instanceof Room) {
 
         let characterText = "";
-
         // Cycle through each linked character to build html text
         Object.keys(room.linkedCharacters).forEach(key => {
             characterText += "<p><i>" + room.linkedCharacters[key].name + "</i></p>";
@@ -524,8 +637,9 @@ function displayCharaters(room) {
         alert(room.name + " is not a room");
     }
 }
-
-// Display pockets
+/**
+ * Displays Items in pockets array
+ */
 function displayPockets() {
 
     let itemText = "";
@@ -545,8 +659,9 @@ function displayPockets() {
     // Focus on the command input box
     document.getElementById("user-text").focus();
 }
-
-// Display hands
+/**
+ * Displays Items in hands array
+ */
 function displayHands() {
 
     let itemText = "";
@@ -566,8 +681,12 @@ function displayHands() {
     // Focus on the command input box
     document.getElementById("user-text").focus();
 }
-
-// Display interaction commands with a Character
+/**
+ * Display interactions with Character
+ * 
+ * @param {Room} room a Room
+ * @param {string} name name of a character 
+ */
 function displayInteraction(room, name) {
 
     // Declare character variable
@@ -952,14 +1071,8 @@ function fightItem(item) {
 }
 
 // Function to change value default range 0-100
-function countInRange(currentValue, changeValue, minRange, maxRange) {
-    // Set default range if not provided
-    if (typeof minRange === "undefined") {
-        minRange = 0;
-    }
-    if (typeof maxRange === "undefined") {
-        maxRange = 100;
-    }
+function countInRange(currentValue, changeValue, minRange = 0, maxRange = 100) {
+
     // Change value 
     let newValue = currentValue + changeValue
     // Check newValue is within range
@@ -1076,6 +1189,24 @@ function gameOver(...type) {
     }
 
     text += "<p>Refresh the webpage to try again.</p>";
+
+    // Display game over text
+    let gameArea = document.getElementById("game-area");
+
+    // Style the game area div
+    gameArea.innerHTML = text;
+    gameArea.style.backgroundColor = "rgba(255, 0, 0, 0.80)";
+    gameArea.style.color = "white";
+    gameArea.style.textAlign = "center";
+    gameArea.style.borderRadius = "7px";
+    gameArea.style.padding = "0.5rem";
+    gameArea.style.margin = "0.5rem";
+}
+
+function win() {
+
+    let text = "<h2>YOU WON!!!</h2>";
+    text += "<p>You managed to beat all enemies and the big boss while keeping the drink flowing for your friends. Well done.</p>";
 
     // Display game over text
     let gameArea = document.getElementById("game-area");
