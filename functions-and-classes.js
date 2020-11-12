@@ -529,7 +529,6 @@ class Food extends Item {
     }
 }
 
-
 // ## DISPLAY FUNCTIONS ##
 
 /**
@@ -552,7 +551,6 @@ function displayRoom(room) {
         alert(room.name + " is not a room");
     }
 }
-
 /**
  * Displays directions to linked Rooms from current Room
  * 
@@ -579,7 +577,6 @@ function displayDirections(room) {
         alert(room.name + " is not a room");
     }
 }
-
 /**
  * Displays Items in current Room
  * 
@@ -614,7 +611,6 @@ function displayItems(room) {
         alert(room.name + " is not a room");
     }
 }
-
 /**
  * Displays Characters in current Room
  * 
@@ -641,7 +637,6 @@ function displayCharaters(room) {
         alert(room.name + " is not a room");
     }
 }
-
 /**
  * Displays Items in pockets array
  */
@@ -664,7 +659,6 @@ function displayPockets() {
     // Focus on the command input box
     document.getElementById("user-text").focus();
 }
-
 /**
  * Displays Items in hands array
  */
@@ -687,8 +681,12 @@ function displayHands() {
     // Focus on the command input box
     document.getElementById("user-text").focus();
 }
-
-// Display interaction commands with a Character
+/**
+ * Display interactions with Character
+ * 
+ * @param {Room} room a Room
+ * @param {string} name name of a character 
+ */
 function displayInteraction(room, name) {
 
     // Declare character variable
@@ -1191,6 +1189,24 @@ function gameOver(...type) {
     }
 
     text += "<p>Refresh the webpage to try again.</p>";
+
+    // Display game over text
+    let gameArea = document.getElementById("game-area");
+
+    // Style the game area div
+    gameArea.innerHTML = text;
+    gameArea.style.backgroundColor = "rgba(255, 0, 0, 0.80)";
+    gameArea.style.color = "white";
+    gameArea.style.textAlign = "center";
+    gameArea.style.borderRadius = "7px";
+    gameArea.style.padding = "0.5rem";
+    gameArea.style.margin = "0.5rem";
+}
+
+function win() {
+
+    let text = "<h2>YOU WON!!!</h2>";
+    text += "<p>You managed to beat all enemies and the big boss while keeping the drink flowing for your friends. Well done.</p>";
 
     // Display game over text
     let gameArea = document.getElementById("game-area");

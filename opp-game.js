@@ -16,21 +16,43 @@ const BarberPlace = new Room("Barber Place", "a street full of parked cars and t
 // Declare items (instances of the class Item)
 const Phone = new Item("Phone", "a very old but still functional Nokia 3210. To call for help use the command <i>call</i>");
 const Wallet = new Item("Wallet", "dirty and half fallen apart. It contains £0.00")
-const Atm = new Item("ATM", "big gray box");
 const ChocCake = new Item("Chocolate Cake", "rich cake made with a local breweries fruit beer");
+const ToyCar = new Item("Toy Car", "Little red toy car with chew marks");
 
 // Declare Beer items (instances of subclass Beer)
 const Landlord = new Beer("Landlord", "Timothy Taylor's", "pint", "The drinkers’ favourite, a classic pale ale with a complex citrus and hoppy aroma. A recent survey revealed that Landlord has the highest proportion of drinkers who call it their favourite ale");
 const Jaipur = new Beer("Jaipur", "Thronbridge", "half pint", "This American style IPA has a complexity of flavours created by a six-dimensional hop experience. Jaipur's hoppiness builds in the mouth and bursts with powerful citrus fruit flavours, culminating in a remarkably smooth finish and making it a deliciously drinkable IPA");
+const PlumPorter = new Beer("Plum Porter", "Titanic", "pint", "Plum Porter is our infamous, strong, dark porter that has re-defined the sector. By combining the sweetness of plums with the hoppy flavour of a porter we have bagged a winner");
+const MadGoose = new Beer("Mad Goose", "Purity", "half pint", "Mad Goose a zesty pale ale with a smooth and citrusy finish. Brewed with English Maris Otter, Caragold and Wheat malts, with Pilgrim bittering hops and Cascade and Willamette aroma hops with an IBU 48.");
+const BlackSheep = new Beer("Black Sheep", "Black Sheep", "pint", "Black Sheep Ale is a full flavoured premium bitter with a rich, fruity aroma. Brewed using generous handfuls of choice Golding hops, it has a perfectly balanced bittersweet, malty taste with a long, dry and bitter finish.");
+const SteamWhistle = new Beer("Steam Whistle Pilsner", "Steam Whistle", "half pint", "Canada’s Premium Pilsner  is the award winning beer from Steam Whistle. With over 20 years of brewing, this quality product proudly stands as Canada’s #1 Craft Beer");
+const ReetPale = new Beer("Reet Pale", "Blue Bee", "pint", "A pale and hoppy beer with a citrus & floral taste leading to a dry and bitter finish");
+const EasyRider = new Beer("Pale Rider", "Kelham Island", "pint", "Forged from the finest Maris Otter malt and a special blend of American hops. The nose is of fresh citrus and berry fruits with a smooth juicy malt character and deceptively moreish finish that belies its strength.");
+const TescoLarger = new Beer("Tesco Larger", "Tesco", "pint", "Cheap crap.");
 
 // Declare Food items (instances of subclass Food)
-const MapleBurger = new Food("Tragically Maple Burger", "20", "An 8 oz. juicy beef patty topped with maple bacon, house-made maple bacon jam, bacon sticks, Canadian cheese curds, arugula & bacon roasted garlic aoli")
-const WhamBar = new Food("Wham Bar", "1", "Sticky it'll pull out your teeth");
+const MapleBurger = new Food("Tragically Maple Burger", "40", "An 8 oz. juicy beef patty topped with maple bacon, house-made maple bacon jam, bacon sticks, Canadian cheese curds, arugula & bacon roasted garlic aoli")
+const WhamBar = new Food("Wham Bar", "5", "Sticky it'll pull out your teeth");
 
 // Declare characters (instances of the class Character or subclasses)
-const TimTaylor = new Friend("Tim Taylor", "middle aged landlord", "he", "What 'ger want?");
+const TimTaylor = new Character("Tim Taylor", "middle aged landlord", "he", "What 'ger want?");
 const SamSmith = new Enemy("Sam Smith", "grumpy old man", "he", "Put that phone away.", ChocCake);
-const ThorBridge = new Character("Thor Bridge", "nice guy with dirt under his fingernails", "he", "Do you want to see my allotment?")
+const BobBadman = new Enemy("Bob Badman", "heavy drinking thug", "he", "Oi! Lets fight.", ToyCar);
+const DonaldSugar = new Enemy("Donald Sugar", "the big boss", "he", "Get out of here!");
+const ThorBridge = new Friend("Thor Bridge", "nice guy with dirt under his fingernails", "he", "Do you want to see my allotment?")
+const PrinceEddy = new Friend("Prince Eddy", "clearly as high as a kit", "he", "Hey bro. I’d love a pint.");
+
+// Array of Enemies
+let enemies = [SamSmith, BobBadman];
+// Array of Friends
+let friends = [ThorBridge, PrinceEddy];
+// Boss array
+let boss = [DonaldSugar];
+
+// Set Character strength levels
+ThorBridge.strength = 6;
+PrinceEddy.strength = 2;
+TimTaylor.strength = 5;
 
 // Link rooms
 Commonside.linkRoom("north", Hallway);
@@ -59,23 +81,30 @@ BeerGarden.linkRoom("east", Basement);
 BarberPlace.linkRoom("south", BeerGarden);
 
 // Link items to rooms
-Basement.linkItem(Atm);
 Lounge.linkItem(MapleBurger);
-Commonside.linkItem(WhamBar);
-Commonside.linkItem(ChocCake);
+Basement.linkItem(WhamBar);
+Sung.linkItem(ChocCake);
+Hallway.linkItem(ToyCar);
+Lounge.linkItem(Jaipur);
+BarArea.linkItem(Landlord);
+BarArea.linkItem(PlumPorter);
+BarArea.linkItem(MadGoose);
+BarArea.linkItem(BlackSheep);
+Lounge.linkItem(ReetPale);
+Lounge.linkItem(EasyRider);
+BeerGarden.linkItem(SteamWhistle);
+BarberPlace.linkItem(TescoLarger);
 
 // Link characters to rooms
-Commonside.linkCharacter(ThorBridge);
-Commonside.linkCharacter(TimTaylor);
-Sung.linkCharacter(SamSmith);
-
-
-// Adjust characters strength values 
-TimTaylor.strength = 5;
+BeerGarden.linkCharacter(ThorBridge);
+BarArea.linkCharacter(TimTaylor);
+GamesRoom.linkCharacter(SamSmith);
+SnookerRoom.linkCharacter(DonaldSugar);
+Basement.linkCharacter(BobBadman)
 
 // Declare pockets and hand vairables with starting items
 let pockets = [Wallet, Phone];
-let hands = [Jaipur, Landlord];
+let hands = [];
 
 // Declare bladder variable (range 0-100) Set starting value to 25
 let bladder = 25;
@@ -345,6 +374,34 @@ document.addEventListener("keydown", function (event) {
 
         // Clear input text field
         clearInput("user-text");
+    }
+
+    // Reset counters
+    enemyCount = 0;
+    friendCount = 0;
+    bossCount = 0;
+
+    // Calculate win conditions
+    enemies.forEach(en => {
+        if (en.strength === 0) {
+            enemyCount++;
+        }
+    });
+    friends.forEach(fri => {
+        if (fri.strength === 10) {
+            friendCount++;
+        }
+    });
+    boss.forEach(boss => {
+        if (boss.strength === 0) {
+            bossCount++;
+        }
+    })
+
+    // Check if win conditions have been met
+    if (friendCount === friends.length && enemyCount === enemies.length
+        && bossCount === boss.length) {
+        win();
     }
 });
 
