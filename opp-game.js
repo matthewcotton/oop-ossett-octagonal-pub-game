@@ -16,8 +16,18 @@ const BarberPlace = new Room("Barber Place", "a street full of parked cars and t
 // Declare items (instances of the class Item)
 const Phone = new Item("Phone", "a very old but still functional Nokia 3210. To call for help use the command <i>call</i>");
 const Wallet = new Item("Wallet", "dirty and half fallen apart. It contains £0.00")
-const ChocCake = new Item("Chocolate Cake", "rich cake made with a local breweries fruit beer");
+const ChocCake = new Item("Chocolate Cake", "overbaked and basically inedible");
 const ToyCar = new Item("Toy Car", "Little red toy car with chew marks");
+const TheTruth = new Item("The Truth", "a document debunking all lies and conspiracy theory");
+const Brick = new Item("Brick", "traditional red brick");
+const Orwell = new Item("1984", "George Orwell’s novel");
+const Cat = new Item("Cat", "old tabby cat. Looking to be left alone");
+const HandAxe = new Item("Hand Axe", "wooden handle with a blunt blade");
+const Monopoly = new Item("Monopoly Board Game", "very beaten up box");
+const Coffee = new Item("Bag of Coffee Beans", "dark roast whole coffee beans");
+const Mirror = new Item("Mirror", "a large gold trimmed mirror");
+const FirePoker = new Item("Fire Poker", "dirty black poker with a sculped handle");
+
 
 // Declare Beer items (instances of subclass Beer)
 const Landlord = new Beer("Landlord", "Timothy Taylor's", "pint", "The drinkers’ favourite, a classic pale ale with a complex citrus and hoppy aroma. A recent survey revealed that Landlord has the highest proportion of drinkers who call it their favourite ale");
@@ -53,6 +63,7 @@ let boss = [DonaldSugar];
 ThorBridge.strength = 6;
 PrinceEddy.strength = 2;
 TimTaylor.strength = 5;
+BobBadman.strength = 5;
 
 // Link rooms
 Commonside.linkRoom("north", Hallway);
@@ -85,6 +96,17 @@ Lounge.linkItem(MapleBurger);
 Basement.linkItem(WhamBar);
 Sung.linkItem(ChocCake);
 Hallway.linkItem(ToyCar);
+Commonside.linkItem(Brick);
+Stairs.linkItem(TheTruth);
+Toilet.linkItem(Orwell);
+SnookerRoom.linkItem(Cat);
+BarberPlace.linkItem(HandAxe);
+GamesRoom.linkItem(Monopoly);
+Basement.linkItem(Coffee);
+Hallway.linkItem(Mirror);
+Sung.linkItem(FirePoker);
+
+// Link beers to rooms
 Lounge.linkItem(Jaipur);
 BarArea.linkItem(Landlord);
 BarArea.linkItem(PlumPorter);
@@ -399,7 +421,7 @@ document.addEventListener("keydown", function (event) {
     })
 
     // Check if win conditions have been met
-    if (friendCount === friends.length && enemyCount === enemies.length
+    if (friendCount === friends.length && enemyCount >= enemies.length - 1
         && bossCount === boss.length) {
         win();
     }
